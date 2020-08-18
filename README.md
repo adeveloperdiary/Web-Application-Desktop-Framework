@@ -57,7 +57,7 @@ Below is the page I used to open the actual demo.
 
 
 ### Running the Demo
-You can still run the demo by opening the /demo/bin-debug/App2Demo.html file in internet explorer. 
+You can still run the demo by opening the /demo/bin-debug/App2Demo.html file in internet explorer.  This was coded using Flex 3.
 
 
 
