@@ -62,7 +62,7 @@ You can still run the demo by opening the /demo/bin-debug/App2Demo.html file in 
 
 ### Featured Emails
 
-I had received many many emails from around the world. Here are few on them I still had in my inbox.
+I had received many many emails from around the world. Here are few of them which I still could find in my old inbox.
 
 > "Congratulations and good luck with your Flex Web Desktop Framework app. It is very unique. Are you selling this as a product? If so, how much are you asking? Also, we are about 18 months into the large development of a project for a non-profit endeavor. We expect to launch it in September. We are using a metaphor like your pop up windows similar to what happens when you click on your task manager button in the demo. We are having trouble getting the min, max, and close buttons to show up on MACs running both Safari and Firefox with the latest version of  the Flash Player 9. Did you write your own pop up window component or did you modify some existing code? If you did build your own component would you consider selling it or letting us use it? I thinks yours runs a bit faster than ours and it operates fine on a MAC. It would save us some debugging time this late in the game." - Scott
 
