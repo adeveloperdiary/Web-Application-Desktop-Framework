@@ -1,4 +1,4 @@
-package com.met.panel
+package com.ajana.panel
 {
 	import mx.containers.Panel;
 	import mx.controls.Label;

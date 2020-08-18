@@ -1,13 +1,13 @@
-package com.met.event
+package com.ajana.event
 {
 	import flash.events.Event;
 
-	public class ApplicationMinimizeEvent extends Event
+	public class ApplicationClickEvent extends Event
 	{
 		private var object:Object;
-		public static var MINIMIZE_WINDOW:String="MINIMIZE_WINDOW";
+		public static var CLICK_WINDOW:String="CLICK_WINDOW";
 		
-		public function ApplicationMinimizeEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function ApplicationClickEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 		}
@@ -19,6 +19,5 @@ package com.met.event
 		public function get windowObject():Object {
 			return object;
 		}
-		
 	}
 }

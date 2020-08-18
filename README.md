@@ -50,10 +50,14 @@ Below is the page I used to open the actual demo.
 - User can also kill or open any new applicaion from TaskManager.
 
 ### Additional Features
-	- Runtime Skinning
-	- Customized user Access
-	- Application Security
-	- Advanced Charting
+- Runtime Skinning
+- Customized user Access
+- Application Security
+- Advanced Charting
+
+
+### Running the Demo
+You can still run the demo by opening the /demo/bin-debug/App2Demo.html file in internet explorer. 
 
 
 

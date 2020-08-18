@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
-	xmlns:met="com.met.panel.*" creationComplete="init();" click="handleClick(event)" xmlns:local="*"
+	xmlns:ajana="com.ajana.panel.*" creationComplete="init();" click="handleClick(event)" xmlns:local="*"
 	backgroundImage="@Embed(source='assets/wallpaper1.jpg')">
 	
 
@@ -42,27 +42,27 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import com.met.event.TaskbarRightClickEvent;
+			import com.ajana.event.TaskbarRightClickEvent;
 			import mx.core.ScrollPolicy;
 			import mx.controls.scrollClasses.ScrollBarDirection;
-			import com.met.dto.TaskbarTO;
+			import com.ajana.dto.TaskbarTO;
 			import mx.events.ListEvent;
 			import mx.controls.TileList;
 			import mx.events.ChildExistenceChangedEvent;
 			import mx.controls.ButtonBar;
-			import com.met.event.KillWindowEvent;
-			import com.met.event.CreateNewWindowEvent;
+			import com.ajana.event.KillWindowEvent;
+			import com.ajana.event.CreateNewWindowEvent;
 			import mx.containers.Panel;
-			import com.met.panel.PanelWindow;
+			import com.ajana.panel.PanelWindow;
 			import mx.core.Application;
-			import com.met.event.DesktopChangeEvent;
+			import com.ajana.event.DesktopChangeEvent;
 			import mx.controls.Image;
-			import com.met.event.IconClickEvent;
+			import com.ajana.event.IconClickEvent;
 			import mx.core.UIComponent;
 			import mx.events.DragEvent;
-			import com.met.event.ApplicationClickEvent;
-			import com.met.event.ApplicationMinimizeEvent;
-			import com.met.event.ApplicationCloseEvent;
+			import com.ajana.event.ApplicationClickEvent;
+			import com.ajana.event.ApplicationMinimizeEvent;
+			import com.ajana.event.ApplicationCloseEvent;
 			import mx.controls.scrollClasses.ScrollBar;
 			import mx.controls.ToggleButtonBar;
 			

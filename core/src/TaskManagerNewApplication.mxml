@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PanelWindow xmlns="com.met.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="300" height="130"
+<PanelWindow xmlns="com.ajana.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="300" height="130"
 	showMin="false" showClose="true" showMax="false" enableResize="false" enableZoom="false" x="0" y="0">
 	<mx:VBox height="27" width="100%">
 	</mx:VBox>

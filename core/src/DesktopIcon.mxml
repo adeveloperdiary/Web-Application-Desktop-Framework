@@ -13,7 +13,7 @@
 	<mx:Script >
 		<![CDATA[
 			import mx.core.Application;
-			import com.met.event.IconClickEvent;
+			import com.ajana.event.IconClickEvent;
 			public function dispatchClickEvent():void {
 				var iconClickEvent:IconClickEvent=new IconClickEvent(IconClickEvent.ICON_CLICK,true);
 				iconClickEvent.applicationName=applicationName;

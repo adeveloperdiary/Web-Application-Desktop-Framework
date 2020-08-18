@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PanelWindow xmlns="com.met.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="650" height="450"
+<PanelWindow xmlns="com.ajana.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="650" height="450"
 	showMax="true" showMin="true" enableResize="true" enableZoom="true" showClose="true" hideEffect="{fadeOut}"	
 	showEffect="{fadeIn}" title="Task Manager" x="50" y="50"  creationComplete="loadDataInTaskManager()">
 	<mx:Fade id="fadeOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>

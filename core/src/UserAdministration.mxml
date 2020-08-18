@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PanelWindow xmlns="com.met.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" 
+<PanelWindow xmlns="com.ajana.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" 
 	width="800" height="364" initialize="init()"
 	horizontalAlign="center" verticalAlign="top" enableResize="true" hideEffect="{fadeOut}"
 	showEffect="{fadeIn}" x="60" y="60"  enableZoom="true">

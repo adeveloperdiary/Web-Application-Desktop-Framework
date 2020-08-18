@@ -1,13 +1,13 @@
-package com.met.event
+package com.ajana.event
 {
 	import flash.events.Event;
 
-	public class ApplicationCloseEvent extends Event
+	public class ApplicationMinimizeEvent extends Event
 	{
 		private var object:Object;
-		public static var CLOSE_WINDOW:String="CLOSE_WINDOW";
+		public static var MINIMIZE_WINDOW:String="MINIMIZE_WINDOW";
 		
-		public function ApplicationCloseEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function ApplicationMinimizeEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 		}

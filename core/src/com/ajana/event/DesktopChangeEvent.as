@@ -1,4 +1,4 @@
-package com.met.event
+package com.ajana.event
 {
 	import flash.events.Event;
 

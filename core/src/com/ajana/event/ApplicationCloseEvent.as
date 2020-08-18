@@ -1,13 +1,13 @@
-package com.met.event
+package com.ajana.event
 {
 	import flash.events.Event;
 
-	public class ApplicationClickEvent extends Event
+	public class ApplicationCloseEvent extends Event
 	{
 		private var object:Object;
-		public static var CLICK_WINDOW:String="CLICK_WINDOW";
+		public static var CLOSE_WINDOW:String="CLOSE_WINDOW";
 		
-		public function ApplicationClickEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function ApplicationCloseEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 		}
@@ -19,5 +19,6 @@ package com.met.event
 		public function get windowObject():Object {
 			return object;
 		}
+		
 	}
 }

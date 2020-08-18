@@ -1,8 +1,8 @@
 
-package com.met.panel {
-	import com.met.event.ApplicationClickEvent;
-	import com.met.event.ApplicationCloseEvent;
-	import com.met.event.ApplicationMinimizeEvent;
+package com.ajana.panel {
+	import com.ajana.event.ApplicationClickEvent;
+	import com.ajana.event.ApplicationCloseEvent;
+	import com.ajana.event.ApplicationMinimizeEvent;
 	
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
