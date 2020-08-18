@@ -56,11 +56,11 @@ Below is the page I used to open the actual demo.
 - Advanced Charting
 
 
-### Running the Demo
+## Running the Demo
 You can still run the demo by opening the /demo/bin-debug/App2Demo.html file in internet explorer.  This was coded using Flex 3. 
 
 
-### Featured Emails
+## Featured Emails
 
 I had received many many emails from around the world. Here are few of them which I still could find in my old inbox.
 
