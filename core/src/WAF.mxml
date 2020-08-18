@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:panel="com.met.panel.*"
+	creationComplete="initCreationComplete()" xmlns:local="*" preinitialize="initPreinitialize()" 
+	backgroundImage="@Embed(source='assets/wallpaper1.jpg')" width="628" height="516">
+	
+	<panel:PanelWindow visible="true" x="266" y="235" width="321" height="190" layout="absolute" title="Login" id="loginPanel" 
+		showClose="false" showMax="false" showMin="false" borderColor="#000000" alpha="0.5" backgroundColor="#CCCCCC" cornerRadius="15" backgroundAlpha="0.9" color="#000000">
+		<mx:Form x="10" y="31" width="301" height="119" color="#000000">
+			<mx:FormItem label="User Name:" >
+				<mx:TextInput id="userName" />
+			</mx:FormItem>
+			<mx:FormItem label="Password:" >
+				<mx:TextInput id="pass" displayAsPassword="true" />
+			</mx:FormItem>
+			<mx:FormItem >
+				<mx:Button enabled="true" label="Submit" width="92" click="showApplication()" styleName="LoginButtonSkin"/>
+			</mx:FormItem>
+		</mx:Form>
+	</panel:PanelWindow>
+	<mx:Label visible="true" id="created" text="Developed by Abhisek Jana (ajana162@yahoo.com)" enabled="true" color="#FFFFFF" right="10" top="10" fontWeight="normal" textDecoration="normal" fontStyle="normal"/>
+	<mx:Text visible="true" id="notice" text="This application has been created in Flex and used only for learning purpose.&#xa;[Date - 05/12/2008]&#xa;The main objective is to create simple web based desktop where different modules can be easily integrated. I have incorporated simple window's features , please click on submit to view the application&#xa;" width="294" right="10" top="38"/>
+	
+	
+	<mx:Script>
+		<![CDATA[
+			import com.met.dto.PerformanceHolderTO;
+			import flash.utils.getTimer;
+			import com.met.event.DesktopChangeEvent;
+			import mx.controls.Alert;
+			import mx.events.EffectEvent;
+			import mx.effects.Zoom;
+			import mx.collections.ArrayCollection;
+			import mx.styles.StyleManager;
+			import flash.utils.Timer;
+	        import flash.events.TimerEvent;
+
+			
+			//Global variables
+			[Bindable] var activeDeskTop:ArrayCollection=new ArrayCollection();
+			[Bindable] public var activeDeskTopIcons:ArrayCollection=new ArrayCollection();
+			[Bindable] public var applicationMenu:XML=new XML();
+			[Bindable] public var settingsMenu:XML=new XML();
+			[Bindable] public var helpMenu:XML=new XML();
+			
+			[Bindable] public var enableApplicationMenu:Boolean=new Boolean(false);
+			[Bindable] public var enableSettingsMenu:Boolean=new Boolean(false);
+			[Bindable] public var enableHelpMenu:Boolean=new Boolean(false);
+			[Bindable] public var enableLockAppMenu:Boolean=new Boolean(false);
+			[Bindable] public var enableLogoutMenu:Boolean=new Boolean(false);
+			
+			
+			[Bindable] var bShowAllDesktpState:Boolean=new Boolean(false);
+			[Bindable] var iCurrentDesktop:int=1;
+			[Bindable] public var memoryUses:ArrayCollection=new ArrayCollection();
+
+			[Bindable] public var maxmem:Number = 0;
+			[Bindable] public var time:int = 0;
+
+			
+			
+			// init on CreationComplete			
+			private function initCreationComplete():void {
+				showLogin();
+			}
+			
+			private function initPreinitialize():void {
+				initTimer();
+				
+				
+			}
+			
+			//public function applyRuntimeStyleSheet():void {
+        	  //  StyleManager.loadStyleDeclarations("assets/BasicStyles.swf")
+		    //}
+
+			
+			public function initTimer():void {
+				
+	            var myTimer:Timer = new Timer(1000, 0);
+	            myTimer.addEventListener(TimerEvent.TIMER, timerHandler);
+	            myTimer.start();
+	        }
+	        
+	        public function timerHandler(event:TimerEvent):void {
+	        	time=getTimer();
+	            var totmem:Number = flash.system.System.totalMemory;
+	            if(memoryUses.length>499){
+					memoryUses.removeItemAt(0);
+				}
+				
+				var obj:PerformanceHolderTO=new PerformanceHolderTO(memoryUses.length+1,((totmem/1024)/1024));
+	    		memoryUses.addItem(obj);
+	            maxmem = Math.max(maxmem, totmem);
+	        }
+
+			
+			private function showLogin():void {
+				loginPanel.x=this.width/2-loginPanel.width/2;
+				loginPanel.y=this.height/2-loginPanel.height/2;
+			}
+			
+	        public function applyRuntimeStyleSheetInit():void {
+        	    StyleManager.loadStyleDeclarations("assets/style.swf")
+    	    }
+
+			
+			private function toggleFullScreen():void {
+                try {
+                    switch (systemManager.stage.displayState) {
+                        case StageDisplayState.FULL_SCREEN:
+                            systemManager.stage.displayState = StageDisplayState.NORMAL;
+                            break;
+                        default:
+                            systemManager.stage.displayState = StageDisplayState.FULL_SCREEN;
+                            break;
+                    }
+                } catch (err:Error) {
+                }
+            }
+			
+			private function showApplication():void {
+				loginPanel.visible=false;
+				//toggleFullScreen();
+				//adds the desktops to the main array
+				activeDeskTop.addItem(cnvsDesktop1);
+				activeDeskTop.addItem(cnvsDesktop2);
+				activeDeskTop.addItem(cnvsDesktop3);
+				activeDeskTop.addItem(cnvsDesktop4);
+				
+				this.addEventListener(DesktopChangeEvent.DESKTOP_CHANGE,showAllDesktop);
+				
+				//adds event listener to zoomDesktops to rest the height & width
+				zoomDesktops.addEventListener(EffectEvent.EFFECT_END,setDesktopSize);
+				expanDesktop.addEventListener(EffectEvent.EFFECT_START,resetDesktopSize);
+				expanDesktop.addEventListener(EffectEvent.EFFECT_END,resetDesktopState);
+
+				//sets the first desktop as first child
+				cnvsHolder.setChildIndex(activeDeskTop.getItemAt(0) as DisplayObject,cnvsHolder.numChildren - 1);
+				
+				//show the first desktop
+				iCurrentDesktop=1;
+				activeDeskTop.getItemAt(0).visible=true;
+				
+			}
+			
+			
+			// Shows all desktops
+			public function showAllDesktop(event:DesktopChangeEvent):void {
+				if(event.desktopNumber==0) {
+					
+					var bZoom:Boolean=new Boolean(true);
+					activeDeskTop.getItemAt(0).visible=true;
+					activeDeskTop.getItemAt(1).visible=true;
+					activeDeskTop.getItemAt(2).visible=true;
+					activeDeskTop.getItemAt(3).visible=true;
+					
+					
+					if(bZoom) {
+							
+						zoomDesktops.target=cnvsDesktop1;
+						moveDesktops.xTo=0;
+						moveDesktops.yTo=0;
+						zoomDesktops.play();
+						
+						
+						zoomDesktops.target=cnvsDesktop2;
+						moveDesktops.xTo=screen.width/2;
+						moveDesktops.yTo=0;
+						zoomDesktops.play();
+						
+						
+						zoomDesktops.target=cnvsDesktop3;
+						moveDesktops.xTo=0;
+						moveDesktops.yTo=screen.height/2;
+						zoomDesktops.play();
+						
+	
+						zoomDesktops.target=cnvsDesktop4;
+						moveDesktops.xTo=screen.width/2;
+						moveDesktops.yTo=screen.height/2;
+						zoomDesktops.play();
+					}else {
+						
+						//no zoomoing
+						desktop1.height=screen.height/2-5;
+						desktop2.height=screen.height/2-5;
+						desktop3.height=screen.height/2-5;
+						desktop4.height=screen.height/2-5;
+						
+						desktop1.width=screen.width/2-5;
+						desktop2.width=screen.width/2-5;
+						desktop3.width=screen.width/2-5;
+						desktop4.width=screen.width/2-5;
+					}
+				}else if(event.desktopNumber>0 && bShowAllDesktpState==true) {
+					iCurrentDesktop=event.desktopNumber;
+					cnvsHolder.setChildIndex(activeDeskTop.getItemAt(iCurrentDesktop-1) as DisplayObject,cnvsHolder.numChildren - 1);
+					setSingleDesktop();
+					event.stopImmediatePropagation();
+				}
+			}
+			//Event listener on Zoom to reset the size
+			public function setDesktopSize(event:EffectEvent):void {
+				event.effectInstance.target.percentHeight=50;
+				event.effectInstance.target.percentWidth=50;
+				bShowAllDesktpState=true;
+			}
+			
+			public function resetDesktopSize(event:EffectEvent):void {
+				event.effectInstance.target.percentHeight=100;
+				event.effectInstance.target.percentWidth=100;
+				
+				
+				
+			}
+			
+		  	public function resetDesktopState(event:EffectEvent):void {
+			  	bShowAllDesktpState=false;
+			  	
+			  	//hiding others to save memory and cpu
+				var arrChild:ArrayCollection=new ArrayCollection(cnvsHolder.getChildren());
+				for(var i:int=0;i<arrChild.length;++i) {
+					if(arrChild.getItemAt(i) as Canvas){
+						if(iCurrentDesktop==(i+1)) {
+							activeDeskTop.getItemAt(i).visible=true;
+						}else {
+							activeDeskTop.getItemAt(i).visible=false;
+						}
+					}	
+				}
+		 	}
+			
+			
+			//resets the size of the desktops
+			public function resetDesktops():void{
+				if(bShowAllDesktpState) {
+					// show the last selected desktop
+					var bZoom:Boolean=new Boolean(true);
+					if(bZoom) {
+						expanDesktop.target=cnvsDesktop1;
+						expanDesktop.play();
+						
+						expanDesktop.target=cnvsDesktop2;
+						expanDesktop.play();
+						
+						expanDesktop.target=cnvsDesktop3;
+						expanDesktop.play();
+						
+						expanDesktop.target=cnvsDesktop4;
+						expanDesktop.play();
+						
+					}else {
+						
+						//no zoomoing
+						desktop1.height=screen.height/2-5;
+						desktop2.height=screen.height/2-5;
+						desktop3.height=screen.height/2-5;
+						desktop4.height=screen.height/2-5;
+						
+						desktop1.width=screen.width/2-5;
+						desktop2.width=screen.width/2-5;
+						desktop3.width=screen.width/2-5;
+						desktop4.width=screen.width/2-5;
+					}
+					
+				}
+			} 
+			
+			
+			//sets the desktop
+			public function setSingleDesktop():void{
+				// show the last selected desktop
+				var bZoom:Boolean=new Boolean(true);
+				if(bZoom) {
+					expanDesktop.target=cnvsDesktop1;
+					expanDesktop.play();
+					
+					expanDesktop.target=cnvsDesktop2;
+					expanDesktop.play();
+					
+					expanDesktop.target=cnvsDesktop3;
+					expanDesktop.play();
+					
+					expanDesktop.target=cnvsDesktop4;
+					expanDesktop.play();
+					
+				}else {
+					
+					//no zoomoing
+					desktop1.height=screen.height/2-5;
+					desktop2.height=screen.height/2-5;
+					desktop3.height=screen.height/2-5;
+					desktop4.height=screen.height/2-5;
+					
+					desktop1.width=screen.width/2-5;
+					desktop2.width=screen.width/2-5;
+					desktop3.width=screen.width/2-5;
+					desktop4.width=screen.width/2-5;
+				}
+			} 
+			
+			//set border color
+			private function setDeskTop(event:MouseEvent,i:int):void {
+				if(bShowAllDesktpState) {
+					iCurrentDesktop=i;
+					cnvsHolder.setChildIndex(activeDeskTop.getItemAt(i-1) as DisplayObject,cnvsHolder.numChildren - 1);
+					
+					setSingleDesktop();
+					var desktopChangeEvent:DesktopChangeEvent=new DesktopChangeEvent(DesktopChangeEvent.DESKTOP_CHANGE);
+					desktopChangeEvent.desktopNumber=i;
+					dispatchEvent(desktopChangeEvent);
+					event.stopImmediatePropagation();
+				}
+				
+			}
+			
+		]]>
+	</mx:Script>
+		
+	<mx:Parallel id="zoomDesktops" >
+	    <mx:children>
+	    	<mx:Move xTo="0" yTo="0" duration="1000" id="moveDesktops"/>
+    		<mx:Zoom zoomHeightTo="0.5" zoomWidthTo=".5" duration="1000" zoomHeightFrom="1" zoomWidthFrom="1"/>
+    	</mx:children>
+  	</mx:Parallel>
+	
+	<mx:Parallel id="expanDesktop" >
+	    <mx:children>
+	    	<mx:Move xTo="0" yTo="0" duration="1000" />
+    		<mx:Zoom zoomHeightTo="1" zoomWidthTo="1" duration="1000"/>
+    	</mx:children>
+  	</mx:Parallel>
+  	
+	 	
+	<mx:Canvas visible="true" left="0" top="0" width="100%" height="100%" id="cnvsHolder" resize="resetDesktops()">
+		<mx:Canvas x="0" y="0" width="100%" height="100%" borderStyle="solid" visible="false"  
+			borderThickness="2" borderColor="#000000" id="cnvsDesktop1">
+			<local:SystemDesktop id="desktop1" x="0" y="0" iDesktopNumber="1"/>
+		</mx:Canvas>
+		<mx:Canvas x="0" y="0" width="100%" height="100%" borderStyle="solid" visible="false"   
+			borderThickness="2" borderColor="#000000" id="cnvsDesktop2">
+			<local:SystemDesktop id="desktop2" x="0" y="0" iDesktopNumber="2"/>
+		</mx:Canvas>
+		<mx:Canvas x="0" y="0" width="100%" height="100%" borderStyle="solid" visible="false"  
+			borderThickness="2" borderColor="#000000" id="cnvsDesktop3">
+			<local:SystemDesktop id="desktop3" x="0" y="0" iDesktopNumber="3"/>
+		</mx:Canvas>
+		<mx:Canvas x="0" y="0" width="100%" height="100%" borderStyle="solid" visible="false"  
+			borderThickness="2" borderColor="#000000" id="cnvsDesktop4">
+			<local:SystemDesktop id="desktop4" x="0" y="0" iDesktopNumber="4"/>
+		</mx:Canvas>
+	</mx:Canvas>
+	
+</mx:Canvas>

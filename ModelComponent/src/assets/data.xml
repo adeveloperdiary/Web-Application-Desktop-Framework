@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<item>
+		<name>Type1</name>
+		<success>12</success>
+		<faliure>2</faliure>
+		<total>14</total>		
+	</item>
+	<item>
+		<name>Type2</name>
+		<success>40</success>
+		<faliure>3</faliure>
+		<total>14</total>		
+	</item>
+	<item>
+		<name>Type3</name>
+		<success>10</success>
+		<faliure>4</faliure>
+		<total>14</total>		
+	</item>
+	<item>
+		<name>Type4</name>
+		<success>9</success>
+		<faliure>16</faliure>
+		<total>14</total>		
+	</item>
+	<item>
+		<name>Total</name>
+		<success>20</success>
+		<faliure>40</faliure>
+		<total>56</total>		
+	</item>
+</data>

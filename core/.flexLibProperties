@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+<includeClasses>
+<classEntry path="com.met.dto.TaskbarTO"/>
+<classEntry path="MyAlbum"/>
+<classEntry path="StartMenu"/>
+<classEntry path="com.met.dto.PerformanceHolderTO"/>
+<classEntry path="com.met.event.ApplicationMinimizeEvent"/>
+<classEntry path="com.met.event.ApplicationCloseEvent"/>
+<classEntry path="UserAdministration"/>
+<classEntry path="com.met.event.TaskbarRightClickEvent"/>
+<classEntry path="ActiveDesktopIcon"/>
+<classEntry path="com.met.event.CreateNewWindowEvent"/>
+<classEntry path="DesktopIcon"/>
+<classEntry path="TaskManagerNewApplication"/>
+<classEntry path="SystemDesktop"/>
+<classEntry path="com.met.panel.Fieldset"/>
+<classEntry path="com.met.event.ApplicationClickEvent"/>
+<classEntry path="com.met.panel.PanelWindow"/>
+<classEntry path="TaskManager"/>
+<classEntry path="com.met.event.DesktopChangeEvent"/>
+<classEntry path="com.met.event.IconClickEvent"/>
+<classEntry path="com.met.event.KillWindowEvent"/>
+<classEntry path="WAF"/>
+</includeClasses>
+<includeResources>
+<resourceEntry destPath="assets/logout.png" sourcePath="assets/logout.png"/>
+<resourceEntry destPath="assets/minimize.png" sourcePath="assets/minimize.png"/>
+<resourceEntry destPath="assets/settings.png" sourcePath="assets/settings.png"/>
+<resourceEntry destPath="assets/slider.png" sourcePath="assets/slider.png"/>
+<resourceEntry destPath="assets/help.png" sourcePath="assets/help.png"/>
+<resourceEntry destPath="assets/zoomout_down.png" sourcePath="assets/zoomout_down.png"/>
+<resourceEntry destPath="assets/rightarrow.png" sourcePath="assets/rightarrow.png"/>
+<resourceEntry destPath="assets/close.png" sourcePath="assets/close.png"/>
+<resourceEntry destPath="assets/restore.png" sourcePath="assets/restore.png"/>
+<resourceEntry destPath="assets/restore_down.png" sourcePath="assets/restore_down.png"/>
+<resourceEntry destPath="assets/close_over.png" sourcePath="assets/close_over.png"/>
+<resourceEntry destPath="assets/package.png" sourcePath="assets/package.png"/>
+<resourceEntry destPath="assets/zoomin.png" sourcePath="assets/zoomin.png"/>
+<resourceEntry destPath="assets/clock2.swf" sourcePath="assets/clock2.swf"/>
+<resourceEntry destPath="assets/clock2.png" sourcePath="assets/clock2.png"/>
+<resourceEntry destPath="assets/maximize_down.png" sourcePath="assets/maximize_down.png"/>
+<resourceEntry destPath="assets/zoomout_over.png" sourcePath="assets/zoomout_over.png"/>
+<resourceEntry destPath="assets/resize.png" sourcePath="assets/resize.png"/>
+<resourceEntry destPath="assets/zoomin_over.png" sourcePath="assets/zoomin_over.png"/>
+<resourceEntry destPath="assets/maximize.png" sourcePath="assets/maximize.png"/>
+<resourceEntry destPath="assets/close_down.png" sourcePath="assets/close_down.png"/>
+<resourceEntry destPath="assets/minimize_over.png" sourcePath="assets/minimize_over.png"/>
+<resourceEntry destPath="assets/resizeCursor.png" sourcePath="assets/resizeCursor.png"/>
+<resourceEntry destPath="assets/wallpaper1.jpg" sourcePath="assets/wallpaper1.jpg"/>
+<resourceEntry destPath="assets/panel_background.png" sourcePath="assets/panel_background.png"/>
+<resourceEntry destPath="assets/zoomout.png" sourcePath="assets/zoomout.png"/>
+<resourceEntry destPath="assets/minimize_down.png" sourcePath="assets/minimize_down.png"/>
+<resourceEntry destPath="assets/zoomin_down.png" sourcePath="assets/zoomin_down.png"/>
+<resourceEntry destPath="assets/maximize_over.png" sourcePath="assets/maximize_over.png"/>
+<resourceEntry destPath="assets/restore_over.png" sourcePath="assets/restore_over.png"/>
+<resourceEntry destPath="assets/key.png" sourcePath="assets/key.png"/>
+</includeResources>
+<namespaceManifests/>
+</flexLibProperties>

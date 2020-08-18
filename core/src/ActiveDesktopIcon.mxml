@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="44" height="44" borderColor="#BBBBBB" borderStyle="solid" borderThickness="3" cornerRadius="5" alpha="1.0" backgroundAlpha="0.14"
+	creationComplete="init()" click="setDesktop()" mouseDownEffect="{glowImage}" >
+	<mx:Canvas click="setDesktop()" id="DesktopIcon1" x="0" y="0" width="18" height="18" cornerRadius="3" borderStyle="solid" borderColor="#5B5B5B" backgroundColor="#FFFFFF">
+		<mx:Text text="1" x="3" y="0" width="16" height="16"  enabled="false" disabledColor="0x000000" fontWeight="bold" fontFamily="Arial"/>
+	</mx:Canvas>
+	<mx:Canvas click="setDesktop()" id="DesktopIcon2" x="20" y="0" width="18" height="18" cornerRadius="3" borderStyle="solid" borderColor="#5B5B5B" backgroundColor="#9C9B9B">
+		<mx:Text text="2" x="3" y="0" width="16" height="16"  enabled="false" disabledColor="0x000000" fontWeight="bold" fontFamily="Arial"/>
+	</mx:Canvas>
+	<mx:Canvas click="setDesktop()" id="DesktopIcon3" x="0" y="20" width="18" height="18" cornerRadius="3" borderStyle="solid" borderColor="#5B5B5B" backgroundColor="#9C9B9B">
+		<mx:Text text="3" x="3" y="0" width="16" height="16"  enabled="false" disabledColor="0x000000" fontWeight="bold" fontFamily="Arial"/>
+	</mx:Canvas>
+	<mx:Canvas click="setDesktop()" id="DesktopIcon4" x="20" y="20" width="18" height="18" cornerRadius="3" borderStyle="solid" borderColor="#5B5B5B" backgroundColor="#9C9B9B">
+		<mx:Text text="4" x="3" y="0" width="16" height="16"  enabled="false" disabledColor="0x000000" fontWeight="bold" fontFamily="Arial"/>
+	</mx:Canvas>
+
+	<mx:Glow id="glowImage" duration="1000" 
+        alphaFrom="1.0" alphaTo="0.0" 
+        blurXFrom="0.0" blurXTo="500.0" 
+        blurYFrom="0.0" blurYTo="500.0" strength="4"
+        color="0xFF0000"/>
+
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import mx.core.Application;
+			import com.met.event.DesktopChangeEvent;
+			
+			private var iDesktopNumber:int;
+			
+			private function init():void {
+				
+			}
+			
+			private function setDesktop():void {
+				if(Application.application.waf.bShowAllDesktpState) {
+					var desktopChangeEvent:DesktopChangeEvent=new DesktopChangeEvent(DesktopChangeEvent.DESKTOP_CHANGE);
+					desktopChangeEvent.desktopNumber=iDesktopNumber;
+					Application.application.waf.dispatchEvent(desktopChangeEvent);
+					
+					var desktopChangeEventToParent:DesktopChangeEvent=new DesktopChangeEvent(DesktopChangeEvent.DESKTOP_CHANGE,true);
+					desktopChangeEventToParent.desktopNumber=iDesktopNumber;
+					this.dispatchEvent(desktopChangeEventToParent);
+						
+				}
+				else {
+					var desktopChangeEvent:DesktopChangeEvent=new DesktopChangeEvent(DesktopChangeEvent.DESKTOP_CHANGE);
+					desktopChangeEvent.desktopNumber=0;
+					Application.application.waf.dispatchEvent(desktopChangeEvent);
+					
+					var desktopChangeEventToParent:DesktopChangeEvent=new DesktopChangeEvent(DesktopChangeEvent.DESKTOP_CHANGE,true);
+					desktopChangeEventToParent.desktopNumber=0;
+					this.dispatchEvent(desktopChangeEventToParent);
+					
+				
+				}
+
+			}
+			
+			public function activeDesktopIcon(iSelected:int):void {
+				if(iSelected>0)  {
+					iDesktopNumber=iSelected;
+					var arrChild:ArrayCollection=new ArrayCollection(this.getChildren());
+					for(var i:int=0;i<arrChild.length;++i) {
+						if(arrChild.getItemAt(i) as Canvas){
+							if(iSelected==(i+1)) {
+								var cnvs:Canvas=arrChild.getItemAt(i) as Canvas;
+								cnvs.setStyle("backgroundColor","#FFFFFF");
+							}else {
+								var cnvs:Canvas=arrChild.getItemAt(i) as Canvas;
+								cnvs.setStyle("backgroundColor","#9C9B9B");
+							}
+						}	
+					}
+					
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	
+	
+	
+	
+	
+	
+</mx:Canvas>

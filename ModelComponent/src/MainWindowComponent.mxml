@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PanelWindow xmlns="com.met.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="518" height="300"
+	showMax="true" showMin="true" showClose="true" title="Main Panel"
+	hideEffect="{fadeOut}" enableZoom="true" singleInstance="true"
+	showEffect="{fadeIn}" x="300" y="150" creationComplete="init()" windowIcon="{kpackage21}">
+	<mx:XML source="assets\data.xml" id="sampledata"/>
+	 
+	<mx:XMLListCollection id="dataXMLList"  source="{sampledata.item}" />
+	<mx:XMLListCollection id="parametersXMLList"  source="{dataGridobj.selectedItem.Parameters.Parameter}" />
+	
+	<mx:VBox height="28" width="100%">
+	</mx:VBox>
+	<mx:VBox height="100%" width="100%">
+		<mx:HBox width="100%" height="100%">
+			<mx:Spacer height="100%" width="5" />
+			<mx:DataGrid dataProvider="{dataXMLList}" 
+				id="dataGridobj" width="100%" height="100%" 
+				selectable="true" itemClick="itemClickEvent(event);" editable="false" enabled="true" borderStyle="solid" borderThickness="1" borderColor="#6D6C6C">
+				<mx:columns>
+					<mx:DataGridColumn headerText="Document Type" dataField="name"/>
+					<mx:DataGridColumn headerText="Success" dataField="success"/>
+					<mx:DataGridColumn headerText="Failure" dataField="faliure"/>
+					<mx:DataGridColumn headerText="Total" dataField="total"/>
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:Spacer height="100%" width="5" />
+		</mx:HBox>
+		<mx:Spacer height="5" width="100%" />
+	</mx:VBox>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.met.event.KillWindowEvent;
+			import mx.controls.Alert;
+			import com.met.event.CreateNewWindowEvent;
+			import mx.core.Application;
+			import mx.collections.ArrayCollection;
+			import mx.events.ListEvent;
+			import com.ChartData;
+		
+			[Bindable]
+			public var chartData:ArrayCollection = new ArrayCollection();
+
+			[Embed(source="assets/kpackage21.png")]
+ 			[Bindable] public var kpackage21:Class;
+		
+			 private function itemClickEvent(event:ListEvent):void {
+		    	var str:String=new String();
+		    	chartData.removeAll();
+		    	var chData:ChartData=new ChartData(dataGridobj.selectedItem.faliure,"Failure");
+		    	chData.setCount(dataGridobj.selectedItem.faliure);
+		    	chData.setLabel("Failure");
+		    	chartData.addItem(chData);
+		    	 
+		    	chData=new ChartData(dataGridobj.selectedItem.success,"Success");
+		    	chData.setCount(dataGridobj.selectedItem.success);
+		    	chData.setLabel("Success");
+		    	chartData.addItem(chData);
+		    	
+		    	var createWindowEventCapture:CreateNewWindowEvent=new CreateNewWindowEvent(CreateNewWindowEvent.CREATE_WINDOW);
+		    	createWindowEventCapture.className="ChartComponent";
+		    	createWindowEventCapture.object=chartData;
+		    	dispatchEvent(createWindowEventCapture);
+		    	
+		    	event.stopImmediatePropagation();
+		    }
+		    
+		    public function init():void {
+				dataGridobj.addEventListener(MouseEvent.CLICK,handleMouseClick,false);
+			
+			}
+		    
+		    public function handleMouseClick(event:MouseEvent):void {
+		    	event.stopImmediatePropagation();
+		    }
+		    
+		    public override function closeClickHandler(event:MouseEvent):void {
+				
+				var classCollection:ArrayCollection=new ArrayCollection();
+				classCollection.addItem("ChartComponent");
+				
+				this.parent.setChildIndex(this, this.parent.numChildren - 1);
+		    	var killWindowEventCapture:KillWindowEvent=new KillWindowEvent(KillWindowEvent.KILL_WINDOW);
+		    	killWindowEventCapture.className=classCollection;
+		    	dispatchEvent(killWindowEventCapture);
+		    	super.closeClickHandler(event);
+		    	
+		    }
+		]]>
+	</mx:Script>
+	
+	<mx:Fade id="fadeOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+	<mx:Fade id="fadeIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+	
+	
+	
+</PanelWindow>

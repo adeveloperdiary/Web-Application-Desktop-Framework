@@ -1,0 +1,392 @@
+global
+{
+	backgroundAlpha: 1.0; /* this runs the opacity of nearly every square piece of the components */
+	backgroundSize: "auto";
+
+	borderColor: #92A0AD;	
+	
+	fillAlphas: 0.3, 0.3, 0.85, 0.75; /* last pair are for OVER state */
+	fillColors: #000000, #000000, #7D7D7D, #000000;
+	
+	highlightAlphas: 0.08, 0.14; /* use this to control the 'light' cast on the components */
+
+	/* themeColor	*/
+	themeColor: #7D7D7D;	
+	rollOverColor: #7D7D7D;
+	selectionColor: #7D7D7D;
+	
+}
+Alert
+{
+	borderColor: #DCDADA;
+	borderAlpha: 0.4;
+	cornerRadius: 4;
+	borderThicknessLeft: 10;
+	borderThicknessTop: 0;
+	borderThicknessRight: 11;
+	borderThicknessBottom: 3;
+	backgroundColor: #E7E7E7;
+	backgroundSize: auto;
+	color: #000000;
+	controlBarStyleName: alertControlBar;
+	titleStyleName: alertTitle;
+	statusStyleName: alertStatus;
+}
+CheckBox
+{
+	borderColor: #1C5180;
+	themeColor: #1C5180;
+	fillAlphas: 1.0, 1.0, 1.0, 1.0;
+	fillColors: #FFFFFF, #E0E0E0, #FAC254, #FFFFFF;
+}
+ComboBox
+{
+	fillAlphas: 1.0, 1.0;
+	fillColors: #F3F3EF, #F3F3EF;
+	borderColor: #656565;
+	themeColor: #BEBEBE;
+	upSkin: Embed(source="assets/combo.png",scaleGridTop="3", scaleGridBottom="18", scaleGridLeft="3", scaleGridRight="200");
+	overSkin: Embed(source="assets/combo_over.png",scaleGridTop="3", scaleGridBottom="18", scaleGridLeft="3", scaleGridRight="200");
+	downSkin: Embed(source="assets/combo_down.png",scaleGridTop="3", scaleGridBottom="18", scaleGridLeft="3", scaleGridRight="200");
+	dropdownStyleName: comboBoxDropdown;
+	fontSize: 11;
+	fontWeight: normal;
+	fontFamily: Georgia;
+}
+.LLDataGrid
+{
+	verticalGridLines: false;
+	headerStyleName: dataGridHeader;
+	alternatingItemColors: #FFFFFF, #FFFFFF;
+	headerColors: #E6E6E6, #E6E6E6;
+}
+
+Application 
+{
+	fontSize: 11;
+    color: #000000;
+    themeColor: #3A6EA5;
+	borderColor: #3A6EA5;
+	backgroundGradientAlphas: 1.0, 1.0;
+	backgroundGradientColors: #3A6EA5, #3A6EA5;  
+	backgroundColors: #000000,#3f3f3f;
+	backgroundSize: "100%";
+}
+
+
+Menu
+{
+	backgroundColor: #000000;
+	backgroundAlpha: .7;
+	borderStyle: solid;
+	borderThickness: 1;
+	borderColor: #3f3f3f;
+	roundedCorners:5;
+	color: #ffffff;
+	textRollOverColor: #FFFFFF;
+	textSelectedColor:#FFFFFF;
+	rollOverColor: #555555;
+	selectionColor: #999999;
+	cornerRadius: 5;
+}
+
+
+MenuBar
+{
+	fillAlphas: 0.4, 0.7, 0.51, 0.51;
+	fillColors: #000000, #000000, #7D7D7D, #000000;
+	color: #FFFFFF;
+	itemDownSkin: Embed(source="assets/menubar.png");
+	cornerRadius: 5;
+
+	
+}
+ 
+Panel
+{
+	borderSkin: Embed(source="assets/panel_background.png", scaleGridTop="34", scaleGridBottom="170", scaleGridLeft="9", scaleGridRight="195");
+	borderThicknessLeft: 10;
+	borderThicknessRight: 11;
+	borderThicknessTop: 0;
+	borderThicknessBottom: 3;
+	headerHeight: 30;
+	titleStyleName: "panelTitle";
+	
+}  
+  	
+.panelTitle {
+  	top:5;
+	left:4;
+	color: #FFFFFF;
+	fontSize: 12;
+}
+
+ 
+.closeButton {
+	upSkin: Embed(source='assets/close.png');
+	overSkin: Embed(source='assets/close_over.png');
+	downSkin: Embed(source='assets/close_down.png');
+}
+
+.maximizeButton {
+   	upSkin: Embed(source='assets/maximize.png');
+	overSkin: Embed(source='assets/maximize_over.png');
+	downSkin: Embed(source='assets/maximize_down.png');
+}
+
+.restoreButton {
+    upSkin:        Embed('assets/restore.png');
+    overSkin:      Embed('assets/restore_over.png');
+    downSkin:      Embed('assets/restore_down.png');
+}
+
+.minimizeButton {
+    upSkin:        Embed('assets/minimize.png');
+    overSkin:      Embed('assets/minimize_over.png');
+    downSkin:      Embed('assets/minimize_down.png');
+}
+
+.resize {
+    upSkin:        Embed('assets/resize.png');
+    overSkin:      Embed('assets/resize.png');
+    downSkin:      Embed('assets/resize.png');
+    disabledSkin:  Embed('assets/resize.png');
+}
+
+.zoominButton {
+    upSkin:        Embed('assets/zoomin.png');
+    overSkin:      Embed('assets/zoomin_over.png');
+    downSkin:      Embed('assets/zoomin_down.png');
+}
+
+.zoomoutButton {
+    upSkin:        Embed('assets/zoomout.png');
+    overSkin:      Embed('assets/zoomout_over.png');
+    downSkin:      Embed('assets/zoomout_down.png');
+}
+
+.goButton {
+    icon : Embed(source='assets/go.png');
+	paddingLeft: 1;
+	paddingRight: 1;
+	horizontalGap: 1;
+}
+
+.innerPanelTitle {
+	color: #000000;
+    fontWeight: normal;
+    fontWeight: bold;
+}
+
+InnerPanel
+{
+	borderSkin: Embed(source="assets/innerPanel.png", scaleGridTop="20", scaleGridBottom="62", scaleGridLeft="12", scaleGridRight="375");
+	titleStyleName: "innerPanelTitle";
+}
+
+.tabPanelTitle {
+	color: #000000;
+    fontWeight: normal;
+    fontWeight: bold;
+}
+
+TabPanelHolder {
+	borderSkin: Embed(source="assets/tab_panel.png", scaleGridTop="2", scaleGridBottom="300", scaleGridLeft="10", scaleGridRight="15");
+}
+
+TabPanel
+{
+	borderSkin: Embed(source="assets/PanelBar.png", scaleGridTop="3", scaleGridBottom="16", scaleGridLeft="3", scaleGridRight="18");
+	titleStyleName: "innerPanelTitle";
+}
+
+ApplicationControlBar {
+	fillAlphas: 1.0, 1.0;
+	fillColors: #EDEAE4, #D4D0C8;
+}
+.BoxWithBG
+{
+	backgroundImage: Embed(source="assets/tab_panel.png", scaleGridTop="3", scaleGridBottom="16", scaleGridLeft="3", scaleGridRight="18");
+	backgroundSize: "100%";
+}
+
+ 
+ToggleButtonBar
+{
+	horizontalGap: 5;
+	buttonStyleName: toggleButtonBarButton;
+	firstButtonStyleName: toggleButtonBarFirstButton;
+	lastButtonStyleName: toggleButtonBarLastButton;
+	selectedButtonTextStyleName: toggleButtonBarSelectedButtonText;
+	
+	
+	
+}
+.toggleButtonBarButton
+{
+	fillAlphas: 0.6, 0.6, 1.0, 1.0;
+	borderColor: #eeeeee;
+	cornerRadius: 0;
+}
+.toggleButtonBarFirstButton
+{
+	fillAlphas: 0.6, 0.6, 1.0, 1.0;
+	borderColor: #eeeeee;
+	cornerRadius: 0;
+}
+.toggleButtonBarLastButton
+{
+	fillAlphas: 0.6, 0.6, 1.0, 1.0;
+	borderColor: #eeeeee;
+	cornerRadius: 0;
+}
+.toggleButtonBarSelectedButtonText
+{
+	color: #FFFFEE;
+	borderColor: #FEFEFE;
+	roundedBottomCorners: true;
+	controlBarStyleName: alertControlBar;
+}
+
+
+VScrollBar
+{
+	trackSkin: Embed(source='flex_skins.swf', symbol='ScrollTrack_Skin');
+	thumbUpSkin: Embed(source='flex_skins.swf', symbol='ScrollThumb_upSkin');
+	thumbOverSkin: Embed(source='flex_skins.swf', symbol='ScrollThumb_overSkin');
+	thumbDownSkin: Embed(source='flex_skins.swf', symbol='ScrollThumb_downSkin');
+	thumbIcon: Embed(source='flex_skins.swf', symbol='ScrollBar_thumbIcon');
+	downArrowUpSkin: Embed(source='flex_skins.swf', symbol='ScrollArrowDown_upSkin');
+	downArrowOverSkin: Embed(source='flex_skins.swf', symbol='ScrollArrowDown_overSkin');
+	downArrowDownSkin: Embed(source='flex_skins.swf', symbol='ScrollArrowDown_downSkin');
+	downArrowDisabledSkin: Embed(source='flex_skins.swf', symbol='ScrollArrowDown_disabledSkin');
+	upArrowUpSkin: Embed(source='flex_skins.swf', symbol='ScrollArrowUp_upSkin');
+	upArrowOverSkin: Embed(source='flex_skins.swf', symbol='ScrollArrowUp_overSkin');
+	upArrowDownSkin: Embed(source='flex_skins.swf', symbol='ScrollArrowUp_downSkin');
+	upArrowDisabledSkin: Embed(source='flex_skins.swf', symbol='ScrollArrowUp_disabledSkin');
+	
+}
+
+TileList
+{
+	alternatingItemColors: #000000, #000000;
+	backgroundAlpha: 0.65;
+	selectionDisabledColor: #931212;
+	color: #FFFFFF;
+	textRollOverColor: #000000;
+	textSelectedColor: #FFFFFF;
+}
+
+
+.ButtonSkin
+{
+	upSkin: Embed('assets/startMenu.png');
+    overSkin: Embed('assets/startMenuSelected.png');
+    downSkin: Embed('assets/startMenuSelected.png');
+    selectedDownSkin: Embed('assets/startMenuSelected.png');
+    selectedOverSkin: Embed('assets/startMenuSelected.png');
+    selectedUpSkin: Embed('assets/startMenuSelected.png');
+    
+	color: #000000;
+	textRollOverColor: #000000;
+	textSelectedColor:#000000;
+}
+
+
+
+.canvasStartMenu
+{
+	backgroundAlpha: 0.7;
+	borderThicknessLeft: 10;
+	borderThicknessRight: 11;
+	borderThicknessTop: 0;
+	borderThicknessBottom: 3;
+	color: #ffffff;
+	cornerRadius: 5;
+	backgroundColor: #000000;
+	borderStyle: solid;
+	borderColor: #636363;
+}
+
+.loginPanel
+{
+
+	borderThicknessLeft: 10;
+	borderThicknessRight: 11;
+	borderThicknessTop: 0;
+	borderThicknessBottom: 3;
+	headerHeight: 30;
+	titleStyleName: "title";
+}
+
+.title {
+	color: #ffffff;
+}
+
+.LoginButtonSkin
+{
+	color: #ffffff;
+	textRollOverColor: #ffffff;
+	textSelectedColor:#ffffff;
+}
+Button
+{
+	upSkin: 	Embed(source="assets/button.png", scaleGridTop="4", scaleGridBottom="18", scaleGridLeft="4", scaleGridRight="69");
+	overSkin:   Embed(source="assets/button_over.png", scaleGridTop="4", scaleGridBottom="18", scaleGridLeft="4", scaleGridRight="69");
+    downSkin:   Embed(source="assets/button_down.png", scaleGridTop="4", scaleGridBottom="18", scaleGridLeft="4", scaleGridRight="69");
+	fontWeight: normal;
+}
+
+TextInput
+{
+	
+	borderStyle:solid;
+	borderThickness: 1;
+	borderColor: #888888;
+	cornerRadius: 0;
+	paddingLeft:6;
+	paddingRight:6;
+	color: #000000;
+	borderSkin: Embed(source="assets/text.png", scaleGridTop="2", scaleGridBottom="18", scaleGridLeft="2", scaleGridRight="227");
+
+}
+
+TabBar
+{
+	tabStyleName: tabBarTab;
+	firstTabStyleName: tabBarFirstTab;
+	lastTabStyleName: tabBarLastTab;
+	selectedTabTextStyleName: tabBarSelectedTabText;
+}
+.tabBarTab
+{
+	upSkin: Embed(source="assets/tab.png");
+	overSkin: Embed(source="assets/tab_over.png");
+	downSkin: Embed(source="assets/tab_down.png");
+}
+.tabBarFirstTab
+{
+	upSkin: Embed(source="assets/tab.png");
+	overSkin: Embed(source="assets/tab_over.png");
+	downSkin: Embed(source="assets/tab_down.png");}
+.tabBarLastTab
+{
+	upSkin: Embed(source="assets/tab.png");
+	overSkin: Embed(source="assets/tab_over.png");
+	downSkin: Embed(source="assets/tab_down.png");
+}
+.tabBarSelectedTabText
+{
+}
+.alertControlBar
+{
+	color: #FFFFFF;
+}
+.alertTitle
+{
+	color:#FFFFFF;
+}
+.alertStatus
+{
+}
+

@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+	xmlns:met="com.met.panel.*" creationComplete="init();" click="handleClick(event)" xmlns:local="*"
+	backgroundImage="@Embed(source='assets/wallpaper1.jpg')">
+	
+
+	<mx:Fade id="fadeOut" duration="1000" alphaFrom="1.0" alphaTo="0.0"/>
+	<mx:Fade id="fadeIn" duration="1000" alphaFrom="0.0" alphaTo="1.0"/>	
+	<mx:ApplicationControlBar visible="true" x="0" id="taskbar" y="480" initialize="setLocation()" resize="setLocation()" 
+		width="100%" height="55" cornerRadius="0" alpha="1.0" themeColor="#060606" fillAlphas="[1.0, 1.0]" fillColors="[#000000, #000000]" dock="false">
+		<mx:Button id="startProgram" visible="false" height="26" width="91" toolTip="Click here to start" fontWeight="bold"
+			enabled="true"  label="start" toggle="true"
+			click="createAndShow()" styleName="ButtonSkin"/>
+		<mx:VRule x="300" y="169" width="1" height="20" strokeColor="#D4D0C8" strokeWidth="1" themeColor="#D4D0C8"/>
+		<mx:Canvas height="100%" width="100%" id="taskCanvas">
+			<mx:VBox height="100%" width="100%" verticalAlign="middle" horizontalAlign="left">
+				<mx:TileList id="toggleTaskBar" verticalAlign="middle" dataProvider="{applicationContainerBttn}" rowCount="1" 
+					width="100%" height="30" verticalScrollPolicy="on"
+					borderStyle="solid" borderThickness="1" borderColor="#888888">
+					<mx:itemRenderer>
+						<mx:Component>
+							<mx:Canvas alpha="1.0" height="23" width="120" backgroundColor="{data.color}"  backgroundAlpha="{data.alpha}">
+								<mx:HBox width="120" height="100%" paddingTop="3">
+									<mx:Label text="{data.name}" width="110" enabled="true" alpha="1.0" height="25" textAlign="center" />
+									<mx:Canvas alpha="1.0" height="23" width="2" backgroundColor="0x888888"/>
+								</mx:HBox>	
+							</mx:Canvas>
+						</mx:Component>
+					</mx:itemRenderer>
+				</mx:TileList>
+			</mx:VBox>
+		</mx:Canvas>
+		<mx:VRule x="350" y="169" width="1" height="20" strokeColor="#D4D0C8" strokeWidth="1" themeColor="#D4D0C8"/>
+		<mx:Canvas height="50" width="50">
+			<local:ActiveDesktopIcon id="activeDesktop" x="0" y="2" />
+		</mx:Canvas>	
+		<mx:VRule x="350" y="169" width="1" height="20" strokeColor="#D4D0C8" strokeWidth="1" themeColor="#D4D0C8"/>
+		<mx:Canvas height="100%" width="53"  id="clockHolder" creationComplete="createMask()">
+			 <mx:SWFLoader source="@Embed(source='assets/clock2.swf')" id="clockLoader" width="100%" height="100%" trustContent="false"/>
+		</mx:Canvas>
+	</mx:ApplicationControlBar>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.met.event.TaskbarRightClickEvent;
+			import mx.core.ScrollPolicy;
+			import mx.controls.scrollClasses.ScrollBarDirection;
+			import com.met.dto.TaskbarTO;
+			import mx.events.ListEvent;
+			import mx.controls.TileList;
+			import mx.events.ChildExistenceChangedEvent;
+			import mx.controls.ButtonBar;
+			import com.met.event.KillWindowEvent;
+			import com.met.event.CreateNewWindowEvent;
+			import mx.containers.Panel;
+			import com.met.panel.PanelWindow;
+			import mx.core.Application;
+			import com.met.event.DesktopChangeEvent;
+			import mx.controls.Image;
+			import com.met.event.IconClickEvent;
+			import mx.core.UIComponent;
+			import mx.events.DragEvent;
+			import com.met.event.ApplicationClickEvent;
+			import com.met.event.ApplicationMinimizeEvent;
+			import com.met.event.ApplicationCloseEvent;
+			import mx.controls.scrollClasses.ScrollBar;
+			import mx.controls.ToggleButtonBar;
+			
+			import mx.events.CollectionEventKind;
+			import mx.containers.GridItem;
+			import mx.events.CollectionEvent;
+			import mx.controls.Tree;
+			import mx.collections.ArrayCollection;
+			import mx.events.MenuEvent;
+			
+			import mx.controls.Alert;
+			import flash.display.StageDisplayState;
+			import mx.managers.SystemManager;
+			
+			private var startMenu:StartMenu;
+			
+			
+			[Bindable] public var  applicationContainerBttn:ArrayCollection=new ArrayCollection();
+			
+			[Bindable] public var  selectedItemInTaskbar:int=0;
+			[Bindable] public var  applicationContainer:ArrayCollection=new ArrayCollection();
+			
+			[Bindable] private var cm:ContextMenu; 
+			
+			[Bindable] private var tileDataArryList:ArrayCollection=new ArrayCollection();
+			[Bindable] private var tileDataProvider:ArrayCollection=new ArrayCollection();
+			
+			private var arrCountHolder:ArrayCollection=new ArrayCollection();
+			
+			public var iDesktopNumber:int;
+			public var iSelectedItemInTaskBar:int=0;
+			
+			private function init():void {
+				activeDesktop.activeDesktopIcon(iDesktopNumber);
+				if(iDesktopNumber==Application.application.waf.iCurrentDesktop)
+					startProgram.visible=true;
+				
+				showApplication();
+				
+			}
+			
+			public function showApplication():void {
+				this.addEventListener(MouseEvent.CLICK,handleClick,true,0,false);
+				this.addEventListener(ApplicationCloseEvent.CLOSE_WINDOW,handleApplicationClose);
+				this.addEventListener(ApplicationMinimizeEvent.MINIMIZE_WINDOW,handleApplicationMinimize);
+				this.addEventListener(ApplicationClickEvent.CLICK_WINDOW,handleApplicationClick);
+				this.addEventListener(IconClickEvent.ICON_CLICK,openApplication,true);
+				this.addEventListener(DesktopChangeEvent.DESKTOP_CHANGE,hideStartButton,true);
+				this.addEventListener(CreateNewWindowEvent.CREATE_WINDOW,createNewWindow,true);
+				this.addEventListener(KillWindowEvent.KILL_WINDOW,killWindow,true);
+				
+				
+				applicationContainer.addEventListener(CollectionEvent.COLLECTION_CHANGE,handleApplication);
+				
+				toggleTaskBar.addEventListener(ListEvent.ITEM_CLICK,taskButtonHandler);
+				
+				//var toggle:ContextMenuItem = new ContextMenuItem("Toggle Full Screen");
+				//toggle.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, toggleFullScreenEvent);	
+				
+				var sideBar:ContextMenuItem = new ContextMenuItem("Toggle Sidebar");
+				sideBar.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, sidebarHideEvent);
+					
+				cm = new ContextMenu();
+ 				cm.hideBuiltInItems();
+//                cm.customItems.push(toggle);
+                cm.customItems.push(sideBar);
+                
+                
+                this.contextMenu=cm;
+				
+//				loginPanel.visible=false;
+				taskbar.visible=true;
+				sidebar.height=this.height-taskbar.height-1;
+				sidebar.visible=true;
+				//created.visible=false;
+				//notice.visible=false;
+				
+				toggleFullScreen();
+				createDesktopImages();
+				
+				sidebar.visible=true;
+			}
+			
+
+			private function createMask():void {
+				var s : UIComponent = new UIComponent()
+				s.graphics.beginFill(0xFFFFFF,0.0);
+				s.graphics.drawRect(0, 0, clockLoader.width, clockLoader.height);
+				s.graphics.endFill();
+				clockHolder.addChild(s);
+				clockLoader.mask = s; 
+			}
+			
+			
+			//application close listener
+			public function handleApplicationClose(event:ApplicationCloseEvent):void {
+				
+				if(applicationContainer.length>0) {
+					//get the object
+					var iIndex:int=applicationContainer.getItemIndex(event.windowObject);
+					
+					//remove it from array
+					applicationContainer.removeItemAt(iIndex);
+					
+					//set the next window
+					var flag:Boolean=new Boolean(false);
+					if(applicationContainer.length>0)
+					{
+						for(var i:int=0;i<applicationContainer.length;++i) {
+							if(applicationContainer.getItemAt(i).visible==true) {
+								selectedItemInTaskbar=i;
+								toggleTaskBar.selectedIndex=i;
+								flag=true;
+								break;
+							}								
+						}
+						if(flag==false)
+						{
+							selectedItemInTaskbar=-1;
+							toggleTaskBar.selectedIndex=-1;
+							
+						}		
+						
+					}else {
+						selectedItemInTaskbar=-1;
+						toggleTaskBar.selectedIndex-1;
+					}
+				}else {
+					selectedItemInTaskbar=-1;
+					toggleTaskBar.selectedIndex-1;
+				}
+				event.stopImmediatePropagation();
+
+			}
+			
+			//application minimize listener
+			public function handleApplicationMinimize(event:ApplicationMinimizeEvent):void {
+				//get the object
+				var iIndex:int=applicationContainer.getItemIndex(event.windowObject);
+				
+				selectedItemInTaskbar=iIndex;
+				
+				applicationContainerBttn.getItemAt(iIndex).alpha="1.0";
+				applicationContainerBttn.getItemAt(iIndex).color="0x000000";
+				
+				applicationContainerBttn.addItem(new TaskbarTO("","0.0","0x0000000",applicationContainerBttn.length.toString()));
+				applicationContainerBttn.removeItemAt(applicationContainerBttn.length-1);
+				
+				var itemClickEvent:ListEvent=new ListEvent(ListEvent.ITEM_CLICK);
+				itemClickEvent.columnIndex=iIndex;
+				toggleTaskBar.selectedIndex=iIndex;
+				toggleTaskBar.dispatchEvent(itemClickEvent);
+				event.stopImmediatePropagation();
+				
+				
+				
+				
+			}
+			
+			//application click listener
+			public function handleApplicationClick(event:ApplicationClickEvent):void {
+				//get the object
+				if(event.windowObject.bVisible==true) {
+					var iIndex:int=applicationContainer.getItemIndex(event.windowObject);
+					toggleTaskBar.selectedIndex=iIndex;
+					selectedItemInTaskbar=iIndex;
+				}
+			}
+			
+			private function taskButtonHandler(event:ListEvent):void {
+				if(applicationContainer.length>0) {
+					if(toggleTaskBar.selectedIndex==selectedItemInTaskbar){
+						applicationContainer.getItemAt(toggleTaskBar.selectedIndex).visible=false;
+												
+						applicationContainerBttn.getItemAt(toggleTaskBar.selectedIndex).alpha="1.0";
+						applicationContainerBttn.getItemAt(toggleTaskBar.selectedIndex).color="0x00000";
+						
+						applicationContainerBttn.addItem(new TaskbarTO("","0.0","0x0000000",applicationContainerBttn.length.toString()));
+						applicationContainerBttn.removeItemAt(applicationContainerBttn.length-1);
+						
+						
+						var flag:Boolean=new Boolean(false);
+						
+						if(applicationContainerBttn.length>1) {
+							for(var i:int=0;i<applicationContainer.length;++i) {
+								if(toggleTaskBar.selectedIndex!=i) {
+									if(applicationContainer.getItemAt(i).visible==true) {
+										trace(i);
+										selectedItemInTaskbar=i;
+										toggleTaskBar.selectedIndex=i;
+										flag=true;
+										break;
+									}
+								}								
+							}
+						}
+						if(flag==false)
+						{
+							selectedItemInTaskbar=-1;
+							toggleTaskBar.selectedIndex=-1;
+							
+						}					
+					}else {
+						if(applicationContainer.getItemAt(toggleTaskBar.selectedIndex).visible==false) {
+							
+							
+							
+							applicationContainer.getItemAt(toggleTaskBar.selectedIndex).visible=true;
+							applicationContainer.getItemAt(toggleTaskBar.selectedIndex).bVisible=true;
+							
+							applicationContainerBttn.getItemAt(toggleTaskBar.selectedIndex).alpha="0.0";
+							applicationContainerBttn.getItemAt(toggleTaskBar.selectedIndex).color="0x000000";
+							
+							applicationContainerBttn.addItem(new TaskbarTO("","0.0","0x0000000",applicationContainerBttn.length.toString()));
+							applicationContainerBttn.removeItemAt(applicationContainerBttn.length-1);
+							
+						}
+						var clickEvent:MouseEvent=new MouseEvent(MouseEvent.CLICK);
+						applicationContainer.getItemAt(toggleTaskBar.selectedIndex).dispatchEvent(clickEvent);
+						selectedItemInTaskbar=toggleTaskBar.selectedIndex;
+					}
+					
+				}
+			}
+			
+			private function handleApplication(event:CollectionEvent):void {
+				//Alert.show(event.kind.toString());
+				
+				if(event.kind==CollectionEventKind.ADD) {
+					var obj:Object=event.items.pop();
+					
+					var iCount:int=0; 
+					
+					for(var i:int=0;i<applicationContainerBttn.length;++i){
+							if(applicationContainer.getItemAt(i).className==obj.className){
+								iCount++;
+							}
+					}
+					if(iCount>0) {
+						obj.title=obj.originalTitle+"("+iCount+")";
+						obj.strTitle=obj.originalTitle+"("+iCount+")";
+					}else {
+						obj.title=obj.originalTitle;
+						obj.strTitle=obj.originalTitle;
+					}					
+					var taskbarTO:TaskbarTO=new TaskbarTO(obj.title,"0.0","0x000000",applicationContainerBttn.length.toString());
+					//applicationContainerBttn.addItem(obj.title);
+					applicationContainerBttn.addItem(taskbarTO);
+					
+					toggleTaskBar.selectedIndex=applicationContainerBttn.length-1;
+					selectedItemInTaskbar=applicationContainerBttn.length-1;
+					trace("Create= "+selectedItemInTaskbar); 
+					
+					//var closeMenu:ContextMenuItem = new ContextMenuItem("Close All");
+					//closeMenu.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, closeApplicationFromTaskBar);	
+						
+					//cm = new ContextMenu();
+	 				//cm.hideBuiltInItems();
+	                //cm.customItems.push(closeMenu);
+	                
+	                //toggleTaskBar.contextMenu=cm;
+					
+					
+					
+				}else if(event.kind==CollectionEventKind.REMOVE) {
+					//Alert.show(event.location+":"+toggleTaskBar.numChildren);
+					//if(toggleTaskBar.numChildren>0) {
+					applicationContainerBttn.removeItemAt(event.location);
+					
+						//toggleTaskBar.dataProvider=applicationContainerBttn;
+					//}
+				}
+				
+			}
+			
+			private function closeApplicationFromTaskBar(event:ContextMenuEvent):void {
+				
+								
+				/*try {
+					for(var i:int=applicationContainer.length-1;i>=0;--i) {
+						if(applicationContainer.length>0){
+							trace(applicationContainer.length);
+							var mouseEvent:MouseEvent=new MouseEvent(MouseEvent.CLICK);
+							applicationContainer.getItemAt(i).closeClickHandler(mouseEvent);
+						}
+					}
+				}
+				catch(e:Error) 
+				{
+					Alert.show(e.message);
+				}*/
+			
+			}
+			
+			public function closeWindowFromTaskBar(event:TaskbarRightClickEvent):void {
+				Alert.show(event.pos.toString());
+				iSelectedItemInTaskBar=event.pos;
+			}
+
+            private function toggleFullScreen():void {
+                try {
+                    switch (systemManager.stage.displayState) {
+                        case StageDisplayState.FULL_SCREEN:
+                            systemManager.stage.displayState = StageDisplayState.NORMAL;
+                            if(startMenu!=null) 
+                            	startMenu.y=taskbar.y-startMenu.height;
+                            break;
+                        default:
+                            systemManager.stage.displayState = StageDisplayState.FULL_SCREEN;
+                            if(startMenu!=null) 
+                            	startMenu.y=taskbar.y-startMenu.height;
+                            break;
+                    }
+                } catch (err:Error) {
+                }
+            }
+
+			private function toggleFullScreenEvent(event:Event):void {
+                try {
+                    switch (systemManager.stage.displayState) {
+                        case StageDisplayState.FULL_SCREEN:
+                        	
+                            systemManager.stage.displayState = StageDisplayState.NORMAL;
+                            if(startMenu!=null) 
+                            	startMenu.y=taskbar.y-startMenu.height;
+                            break;
+                        default:
+                        	
+                            systemManager.stage.displayState = StageDisplayState.FULL_SCREEN;
+                            if(startMenu!=null) 
+                            	startMenu.y=taskbar.y-startMenu.height;
+                            break;
+                    }
+                } catch (err:Error) {
+                }
+            }
+			
+			private function handleClick(event:Event):void {
+				if(event.target!=startProgram) 
+				{
+					if(startMenu!=null)
+					{
+						try {
+							this.removeChild(startMenu);
+						}catch(e:Error){
+							
+						}
+					}
+					startProgram.selected=false;
+				}
+			}
+			
+			private function resetStart(event:Event):void {
+				startProgram.selected=false;
+			}
+			
+			
+			public function setLocation():void {
+				
+				if(Application.application.waf.bShowAllDesktpState==true) {
+					startProgram.visible=false;
+				}
+				else if(Application.application.waf.iCurrentDesktop==iDesktopNumber)
+					startProgram.visible=true;
+				taskbar.y=this.height-taskbar.height-1;
+				try {
+					sidebar.height=this.height-taskbar.height-1;	
+					
+				}catch(e:Error) {
+				}
+				
+				try {
+					startMenu.y=taskbar.y-startMenu.height;
+					//swfClockLoader.x=this.width-165;
+            		//swfClockLoader.y=100;
+            		
+					
+				}catch(e:Error) {
+				}
+			}
+			
+			
+
+			private function sidebarHideEvent(event:ContextMenuEvent):void {
+				if(sidebar.visible==true) {
+					sidebar.visible=false;
+					
+				}else {
+					sidebar.visible=true;
+				}
+			} 
+
+			private function createAndShow():void {
+				if(startProgram.selected==true) {
+					
+					startMenu=new StartMenu();
+					startMenu.id="startMenu";
+					startMenu.addEventListener(MenuEvent.ITEM_CLICK,resetStart);
+					this.addChild(startMenu);
+					startMenu.y=taskbar.y-startMenu.height;
+
+	                startMenu.visible=true;
+	                
+    			}else {
+    				 startMenu.visible=false;
+    			}
+            }
+            
+            //for Linker
+            public function createRefForLinker(component:Image):void {
+            	var newApp:UserAdministration=new UserAdministration();
+        		var newAlbum:MyAlbum=new MyAlbum();
+        		var newTaskManager:TaskManager=new TaskManager();
+
+        		
+            }
+            
+            
+            public function createDesktopImages():void {
+            	
+            	if(Application.application.waf.activeDeskTopIcons.length>0){
+            		for(var i:int=0;i<Application.application.waf.activeDeskTopIcons.length;++i) {
+            			var image:DesktopIcon=Application.application.waf.activeDeskTopIcons.getItemAt(i);
+            			var image2:DesktopIcon=new DesktopIcon();
+            			image2.x=image.x;
+            			image2.y=image.y;
+		            	image2.id=image.id;
+		            	image2.doubleClickEnabled=true;
+		            	image2.imageNameStr=image.imageNameStr;
+		            	image2.iconNameStr=image.iconNameStr;
+		            	image2.applicationName=image.applicationName;
+		            	addChild(image2);
+            		}
+            	}
+            	
+            	/*var image2:DesktopIcon=new DesktopIcon();
+            	image2.x=10;
+            	image2.y=20;
+            	image2.id="image0";
+            	image2.doubleClickEnabled=true;
+            	image2.imageNameStr="assets/album.png";
+            	image2.iconNameStr="Album";
+            	image2.applicationName="MyAlbum";
+            	addChild(image2);
+            	
+            	var image1:DesktopIcon=new DesktopIcon();
+            	image1.x=10;
+            	image1.y=100;
+            	image1.id="image1";
+            	image1.doubleClickEnabled=true;
+            	image1.imageNameStr="assets/kpackage.png";
+            	image1.iconNameStr="Application";
+            	image1.applicationName="UserAdministration";
+            	addChild(image1);
+            	
+            	var imagetm:DesktopIcon=new DesktopIcon();
+            	imagetm.x=10;
+            	imagetm.y=180;
+            	imagetm.id="imagetm";
+            	imagetm.doubleClickEnabled=true;
+            	imagetm.imageNameStr="assets/taskmanager.png";
+            	imagetm.iconNameStr="TaskManager";
+            	imagetm.applicationName="TaskManager";
+            	addChild(imagetm);
+            	
+            	var imagedg:DesktopIcon=new DesktopIcon();
+            	imagedg.x=10;
+            	imagedg.y=260;
+            	imagedg.id="imagedg";
+            	imagedg.doubleClickEnabled=true;
+            	imagedg.imageNameStr="assets/datagrid.png";
+            	imagedg.iconNameStr="Grid \nComponent";
+            	imagedg.applicationName="MainWindowComponent";
+            	addChild(imagedg);*/
+            	
+            }
+            
+            private function openApplication(event:IconClickEvent):void {
+            	var classReference:Class = getDefinitionByName(event.applicationName) as Class;
+				var instance:DisplayObject = new classReference() as DisplayObject;
+				this.addChild(instance);
+				applicationContainer.addItem(instance);
+            }
+            
+            
+            //side bar
+            
+            public function hideSidebar():void {
+            	sidebar.visible=false;
+            }
+            
+            
+            //hide the startButton
+            public function hideStartButton(event:DesktopChangeEvent):void {
+            	if(event.desktopNumber>0) {
+					startProgram.visible=true;						
+				}
+				else {
+					startProgram.visible=false;
+				}
+
+            }
+            
+            public function createNewWindow(event:CreateNewWindowEvent):void {
+            	var obj:PanelWindow=new PanelWindow();
+            	var bObjectFound:Boolean=new Boolean(false);
+            	
+            	for(var i:int=0;i<applicationContainer.length;++i) {
+            		if(applicationContainer.getItemAt(i).className==event.className) {
+            			obj=applicationContainer.getItemAt(i) as PanelWindow;
+            			bObjectFound=true;
+            			break;
+            		}	
+            	}
+            	
+            	
+            	if(!bObjectFound){
+            		var classReference:Class = getDefinitionByName(event.className) as Class;
+					obj = new classReference() as PanelWindow;
+					addChild(obj);
+					applicationContainer.addItem(obj);
+            	}
+            	
+            	obj.setData(event.object);
+            }
+            
+            public function killWindow(event:KillWindowEvent):void {
+            	for(var i:int=applicationContainer.length-1;i>0;--i) {
+            		if(applicationContainer.getItemAt(i).className==event.className) {
+            			var mouseEvent:MouseEvent=new MouseEvent(MouseEvent.CLICK);
+						var objWindow:Object=applicationContainer.getItemAt(i);
+						objWindow.closeClickHandler(mouseEvent);
+						break;	
+            		}
+            	}
+            }
+            
+		]]>
+	</mx:Script>
+	<mx:Canvas  hideEffect="{hideRight}" showEffect="{showLeft}" visible="false" id="sidebar" width="152" right="0" height="568" top="0" backgroundColor="#000000" backgroundAlpha="0.29" cornerRadius="12" alpha="0.8" borderColor="#464646" borderStyle="solid" borderThickness="3">
+		<mx:LinkButton x="31" y="10" label="Hide" enabled="true" width="94" color="#FFFFFF" fontWeight="bold" click="hideSidebar()"/>
+		<mx:Canvas id="snapHolder" height="100%" width="146" y="41">
+			<mx:VBox x="0" y="0" height="100%" width="126" horizontalAlign="center" verticalAlign="top" verticalGap="6" id="vboxItemHolder">
+			</mx:VBox>
+		
+		</mx:Canvas>
+	</mx:Canvas>
+	<mx:Parallel id="hideRight" target="sidebar">
+	    <mx:children>
+    		<mx:WipeRight duration="1000" />
+      		<mx:Fade duration="1000" alphaFrom="0.8" alphaTo="0.0"/>
+    	</mx:children>
+  	</mx:Parallel>
+  	
+  	<mx:Parallel id="showLeft" target="sidebar">
+	    <mx:children>
+    		<mx:WipeLeft duration="2000" />
+      		<mx:Fade duration="2000" alphaFrom="0.0" alphaTo="0.8"/>
+    	</mx:children>
+  	</mx:Parallel>
+  	
+  	<mx:Parallel id="zoomOutWindow">
+	    <mx:children>
+    		<mx:Zoom zoomHeightTo="0.5" zoomWidthTo=".5" duration="1000" zoomHeightFrom="1" zoomWidthFrom="1"
+    			id="zoomWindow"/>
+    	</mx:children>
+  	</mx:Parallel>
+	
+	<mx:Parallel id="zoomInWindow" >
+	    <mx:children>
+    		<mx:Zoom zoomHeightTo="1" zoomWidthTo="1" duration="1000"/>
+    	</mx:children>
+  	</mx:Parallel>
+	<mx:Label visible="true" id="created" text="Developed by Abhisek Jana (ajana162@yahoo.com)" enabled="true" color="#FFFFFF" top="10" fontWeight="normal" textDecoration="normal" fontStyle="normal" left="{this.width/2-200}"/>  	
+</mx:Canvas>

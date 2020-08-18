@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" x="0" y="0" width="215" height="0" alpha="1.0"
+	hideEffect="{fadeOut}" showEffect="{fadeIn}" styleName="canvasStartMenu" initialize="initStartMenu()">
+	<mx:Grid x="0" y="0" width="209" id="startMenuGrid">
+		
+	</mx:Grid>
+	<mx:Fade id="fadeOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+	<mx:Fade id="fadeIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.containers.GridRow;
+			import mx.controls.Label;
+			import mx.controls.Image;
+			import mx.containers.GridItem;
+			import mx.modules.Module;
+			import mx.modules.ModuleLoader;
+			import mx.core.Application;
+		
+			import mx.events.MenuEvent;
+			import mx.controls.Alert;
+			import mx.controls.Menu;
+			import flash.utils.getDefinitionByName;
+			
+			[Embed(source="assets/package.png")]
+ 			[Bindable] public var packagePNG:Class;
+ 			
+ 			[Embed(source="assets/rightarrow.png")]
+ 			[Bindable] public var rightArrowPNG:Class;
+ 			
+ 			[Embed(source="assets/settings.png")]
+ 			[Bindable] public var settingsPNG:Class;    
+			
+			[Embed(source="assets/help.png")]
+ 			[Bindable] public var helpPNG:Class;
+			
+			[Embed(source="assets/key.png")]
+ 			[Bindable] public var keyPNG:Class;
+			
+			[Embed(source="assets/logout.png")]
+ 			[Bindable] public var logoutPNG:Class;
+			
+			
+			[Bindable] public var applicationMenu:Menu=new Menu();
+			[Bindable] public var settingsMenu:Menu=new Menu();
+			[Bindable] public var helpMenu:Menu=new Menu();
+			
+			
+			private var objOldMenu:Object=new Object();
+			
+			private function initStartMenu():void {
+				
+				startMenuGrid.height=0;
+				
+				if(Application.application.waf.enableApplicationMenu==true){
+					var gridRow:GridRow=new GridRow();
+					gridRow.percentHeight=100;
+					gridRow.percentWidth=100;
+					gridRow.id="applications";
+					gridRow.addEventListener(MouseEvent.MOUSE_OVER,showGridRow);
+					gridRow.setStyle("backgroundAlpha","0.0");
+					
+					var gridItem1:GridItem=new GridItem();
+					gridItem1.width=38;
+					gridItem1.percentHeight=100;
+					
+					var image1:Image=new Image();
+					image1.source=packagePNG;
+					image1.scaleContent=true;
+					image1.autoLoad=true;
+					
+					gridItem1.addChild(image1);
+					gridRow.addChild(gridItem1);
+					
+					var gridItem2:GridItem=new GridItem();
+					gridItem2.width=137;
+					gridItem2.percentHeight=100;
+					gridItem2.setStyle("verticalAlign","middle");
+					gridItem2.setStyle("horizontalAlign","left");
+					
+					var label:Label=new Label();
+					label.text="Applications";
+					label.enabled=true;
+					
+					gridItem2.addChild(label);
+					gridRow.addChild(gridItem2);
+					
+					var gridItem3:GridItem=new GridItem();
+					gridItem3.width=20;
+					gridItem3.percentHeight=100;
+					gridItem3.setStyle("verticalAlign","middle");
+					
+					var image2:Image=new Image();
+					image2.source=rightArrowPNG;
+										
+					gridItem3.addChild(image2);
+					gridRow.addChild(gridItem3);
+					
+					startMenuGrid.height=startMenuGrid.height+42;
+					this.height=this.height+43;
+					startMenuGrid.addChild(gridRow);
+				}
+				if(Application.application.waf.enableSettingsMenu==true){
+					var gridRow:GridRow=new GridRow();
+					gridRow.percentHeight=100;
+					gridRow.percentWidth=100;
+					gridRow.id="settings";
+					gridRow.addEventListener(MouseEvent.MOUSE_OVER,showGridRow);
+					gridRow.setStyle("backgroundAlpha","0.0");
+					
+					var gridItem1:GridItem=new GridItem();
+					gridItem1.width=38;
+					gridItem1.percentHeight=100;
+					
+					var image1:Image=new Image();
+					image1.source=settingsPNG;
+					image1.scaleContent=true;
+					image1.autoLoad=true;
+					
+					gridItem1.addChild(image1);
+					gridRow.addChild(gridItem1);
+					
+					var gridItem2:GridItem=new GridItem();
+					gridItem2.width=137;
+					gridItem2.percentHeight=100;
+					gridItem2.setStyle("verticalAlign","middle");
+					gridItem2.setStyle("horizontalAlign","left");
+					
+					var label:Label=new Label();
+					label.text="Settings";
+					label.enabled=true;
+					
+					gridItem2.addChild(label);
+					gridRow.addChild(gridItem2);
+					
+					var gridItem3:GridItem=new GridItem();
+					gridItem3.width=20;
+					gridItem3.percentHeight=100;
+					gridItem3.setStyle("verticalAlign","middle");
+					
+					var image2:Image=new Image();
+					image2.source=rightArrowPNG;
+										
+					gridItem3.addChild(image2);
+					gridRow.addChild(gridItem3);
+					
+					startMenuGrid.height=startMenuGrid.height+42;
+					this.height=this.height+43;
+					startMenuGrid.addChild(gridRow);
+				}
+				
+				if(Application.application.waf.enableHelpMenu==true){
+					var gridRow:GridRow=new GridRow();
+					gridRow.percentHeight=100;
+					gridRow.percentWidth=100;
+					gridRow.id="help";
+					gridRow.addEventListener(MouseEvent.MOUSE_OVER,showGridRow);
+					gridRow.setStyle("backgroundAlpha","0.0");
+					
+					var gridItem1:GridItem=new GridItem();
+					gridItem1.width=38;
+					gridItem1.percentHeight=100;
+					
+					var image1:Image=new Image();
+					image1.source=helpPNG;
+					image1.scaleContent=true;
+					image1.autoLoad=true;
+					
+					gridItem1.addChild(image1);
+					gridRow.addChild(gridItem1);
+					
+					var gridItem2:GridItem=new GridItem();
+					gridItem2.width=137;
+					gridItem2.percentHeight=100;
+					gridItem2.setStyle("verticalAlign","middle");
+					gridItem2.setStyle("horizontalAlign","left");
+					
+					var label:Label=new Label();
+					label.text="Help &amp; Support";
+					label.enabled=true;
+					
+					gridItem2.addChild(label);
+					gridRow.addChild(gridItem2);
+					
+					var gridItem3:GridItem=new GridItem();
+					gridItem3.width=20;
+					gridItem3.percentHeight=100;
+					gridItem3.setStyle("verticalAlign","middle");
+					
+					var image2:Image=new Image();
+					image2.source=rightArrowPNG;
+										
+					gridItem3.addChild(image2);
+					gridRow.addChild(gridItem3);
+					
+					startMenuGrid.height=startMenuGrid.height+42;
+					this.height=this.height+43;
+					startMenuGrid.addChild(gridRow);
+				}
+				
+				if(Application.application.waf.enableLockAppMenu==true){
+					var gridRow:GridRow=new GridRow();
+					gridRow.percentHeight=100;
+					gridRow.percentWidth=100;
+					gridRow.id="lock";
+					gridRow.addEventListener(MouseEvent.MOUSE_OVER,showGridRow);
+					gridRow.setStyle("backgroundAlpha","0.0");
+					
+					var gridItem1:GridItem=new GridItem();
+					gridItem1.width=38;
+					gridItem1.percentHeight=100;
+					
+					var image1:Image=new Image();
+					image1.source=keyPNG;
+					image1.scaleContent=true;
+					image1.autoLoad=true;
+					
+					gridItem1.addChild(image1);
+					gridRow.addChild(gridItem1);
+					
+					var gridItem2:GridItem=new GridItem();
+					gridItem2.width=137;
+					gridItem2.percentHeight=100;
+					gridItem2.setStyle("verticalAlign","middle");
+					gridItem2.setStyle("horizontalAlign","left");
+					
+					var label:Label=new Label();
+					label.text="Lock Application";
+					label.enabled=true;
+					
+					gridItem2.addChild(label);
+					gridRow.addChild(gridItem2);
+					
+					var gridItem3:GridItem=new GridItem();
+					gridItem3.width=20;
+					gridItem3.percentHeight=100;
+					gridItem3.setStyle("verticalAlign","middle");
+					
+					gridRow.addChild(gridItem3);
+					
+					startMenuGrid.height=startMenuGrid.height+42;
+					this.height=this.height+43;
+					startMenuGrid.addChild(gridRow);
+				}
+				
+				if(Application.application.waf.enableLogoutMenu==true){
+					var gridRow:GridRow=new GridRow();
+					gridRow.percentHeight=100;
+					gridRow.percentWidth=100;
+					gridRow.id="logout";
+					gridRow.addEventListener(MouseEvent.MOUSE_OVER,showGridRow);
+					gridRow.setStyle("backgroundAlpha","0.0");
+					
+					var gridItem1:GridItem=new GridItem();
+					gridItem1.width=38;
+					gridItem1.percentHeight=100;
+					
+					var image1:Image=new Image();
+					image1.source=logoutPNG;
+					image1.scaleContent=true;
+					image1.autoLoad=true;
+					
+					gridItem1.addChild(image1);
+					gridRow.addChild(gridItem1);
+					
+					var gridItem2:GridItem=new GridItem();
+					gridItem2.width=137;
+					gridItem2.percentHeight=100;
+					gridItem2.setStyle("verticalAlign","middle");
+					gridItem2.setStyle("horizontalAlign","left");
+					
+					var label:Label=new Label();
+					label.text="Logout";
+					label.enabled=true;
+					
+					gridItem2.addChild(label);
+					gridRow.addChild(gridItem2);
+					
+					var gridItem3:GridItem=new GridItem();
+					gridItem3.width=20;
+					gridItem3.percentHeight=100;
+					gridItem3.setStyle("verticalAlign","middle");
+					
+					gridRow.addChild(gridItem3);
+					
+					startMenuGrid.height=startMenuGrid.height+42;
+					this.height=this.height+43;
+					startMenuGrid.addChild(gridRow);
+				}
+				
+			}
+			
+			
+			private function handleMenuEvent(event:MenuEvent):void {
+				
+				var bCheck:Boolean=false;
+				
+				if(event.item.@single=="Y") {
+					for(var i:int=0;i<((SystemDesktop)(this.parent)).applicationContainer.length;++i){
+						if(((SystemDesktop)(this.parent)).applicationContainer.getItemAt(i).className==event.item.@appName) {
+							bCheck=true;
+							break;
+						}
+					}
+				}
+				
+				if(event.item.@single=="Y" && bCheck==true) {
+					Alert.show(event.item.@name+" is already running !");
+				}else {
+				
+					dispatchEvent(event);
+					
+					var classReference:Class = getDefinitionByName(event.item.@appName) as Class;
+					
+					var instance:DisplayObject = new classReference() as DisplayObject;
+					
+					//instance.id="User Administration";
+					//instance.windowTitle=event.item.@label;
+					
+					
+					
+					//var newApp:UserAdministration=new UserAdministration;
+					
+					//newApp.id="User Administration";
+					//newApp.windowTitle=event.item.@label;
+	 				this.parent.addChild(instance);
+					
+					((SystemDesktop)(this.parent)).applicationContainer.addItem(instance);
+					
+	
+					
+					
+					//this.addChild(module);
+					//Application.application.applicationContainer.addItem(module);
+					
+				}					
+				
+				this.parent.removeChild(this);
+			}
+			
+			private function showGridRow(event:MouseEvent):void {
+				
+				
+            	try {
+	            	var grid:Grid=startMenuGrid;
+	            	var arrGrid:Array=grid.getChildren();
+	            	var iLength:int=arrGrid.length;
+
+	            	for(var i:int=0;i<iLength;++i) {
+	            		var obj:Object=arrGrid.pop();
+	            		obj.setStyle("backgroundAlpha","0.0");
+	            		//obj..setStyle("color","#FFFFFF");
+	            	}            	
+	            	
+	            	event.currentTarget.setStyle("backgroundAlpha","0.5");
+	            	event.currentTarget.setStyle("backgroundColor","#888888");
+	            	//event.currentTarget.setStyle("color","#000000");
+	            	
+	            	if(objOldMenu.id!=event.currentTarget.id) {
+						applicationMenu.hide();
+						settingsMenu.hide();
+						helpMenu.hide();
+						
+						if(event.currentTarget.id=="applications") {
+							applicationMenu = Menu.createMenu(null, Application.application.waf.applicationMenu, false);
+							applicationMenu.addEventListener(MenuEvent.ITEM_CLICK,handleMenuEvent);
+							applicationMenu.labelField="@label";
+							applicationMenu.show(event.currentTarget.x+event.currentTarget.width+5,this.y+2);
+						}else if (event.currentTarget.id=="settings") {
+							settingsMenu = Menu.createMenu(null, Application.application.waf.settingsMenu, false);
+							settingsMenu.addEventListener(MenuEvent.ITEM_CLICK,handleMenuEvent);
+							settingsMenu.labelField="@label";
+							settingsMenu.show(event.currentTarget.x+event.currentTarget.width+5,this.y+45+3);
+						} else if (event.currentTarget.id=="help") {
+							helpMenu = Menu.createMenu(null, Application.application.waf.helpMenu, false);
+							helpMenu.addEventListener(MenuEvent.ITEM_CLICK,handleMenuEvent);
+							helpMenu.labelField="@label";
+							helpMenu.show(event.currentTarget.x+event.currentTarget.width+5,this.y+45*2+2);
+						}           	
+	            	}
+	            	
+					
+	            	
+	            	objOldMenu=event.currentTarget;
+	            }catch(e:Error) {
+	            	//Alert.show(e.getStackTrace());
+	            }
+            	
+            }
+		]]>
+	</mx:Script>
+
+	<mx:XML format="e4x" id="startMenuData">
+		<root>
+			<menuitem label="Application" id="A">
+				<SubMenuItem  label="MyAlbum" id="E" appName="MyAlbum" single="N" name="MyAlbum"/> 
+            	<SubMenuItem  label="Reporting" id="E" appName="UserAdministration" single="N"/>
+            </menuitem>
+            <menuitem label="Album" id="B" appName="MyAlbum" single="N"/>
+            <menuitem label="Test" id="C" appName="UserAdministration" single="N"/>
+            <menuitem label="Drid Data" id="D" appName="MainWindowComponent" single="Y" name="Main Panel"/>
+		</root>
+	</mx:XML>
+	
+</mx:Canvas>

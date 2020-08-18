@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PanelWindow xmlns="com.met.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="650" height="450"
+	showMax="true" showMin="true" enableResize="true" enableZoom="true" showClose="true" hideEffect="{fadeOut}"	
+	showEffect="{fadeIn}" title="Task Manager" x="50" y="50"  creationComplete="loadDataInTaskManager()">
+	<mx:Fade id="fadeOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+	<mx:Fade id="fadeIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+	
+	<mx:VBox height="27" width="100%">
+	</mx:VBox>
+	
+	
+	<mx:HBox width="100%">
+		<mx:Spacer width="5"  />
+		<mx:TabBar id="tab">
+			<mx:dataProvider>
+		        <mx:Object label="Applications" data="Applications"/>
+		        <mx:Object label="Performance" data="Performance"/>                    
+		        <mx:Object label="Desktop 1" data="Desktop 1"/>
+		        <mx:Object label="Desktop 2" data="Desktop 2"/>
+		        <mx:Object label="Desktop 3" data="Desktop 3"/>
+		        <mx:Object label="Desktop 4" data="Desktop 4"/>
+		    </mx:dataProvider>
+		</mx:TabBar>	
+		<mx:Spacer width="5" />
+	</mx:HBox>
+			
+	<mx:ViewStack id="stack" width="100%" height="100%">
+		<mx:VBox height="100%" width="100%" id="apps">
+				<mx:HBox width="100%" height="100%" >
+					<mx:Spacer width="5" height="100%"/>
+					<Fieldset width="100%" height="100%">
+						<mx:VBox height="100%" width="100%">
+							<mx:VBox height="15" width="100%">
+							</mx:VBox>
+							<mx:HBox width="100%" height="100%" >
+								<mx:Spacer width="5" height="100%"/>
+								<mx:Grid width="100%" height="100%">
+									<mx:GridRow width="100%" height="100%">
+										<mx:GridItem width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" borderStyle="solid" borderThickness="1">
+											<mx:DataGrid dataProvider="{Application.application.waf.desktop1.applicationContainer}" 
+												id="dataGridobj1" width="100%" height="100%" 
+												selectable="true" editable="false" enabled="true" borderStyle="solid" borderThickness="1"  dragEnabled="true"
+												borderColor="#6D6C6C" dragMoveEnabled="true" mouseDown="setDragInitator(event,'dataGridobj1',Application.application.waf.desktop1)"
+												dragEnter="doDragEnter(event);" dragExit="doDragExit(event);" dragDrop="doDragDrop(event,Application.application.waf.desktop1);">
+												<mx:columns>
+													<mx:DataGridColumn headerText="Application Name" dataField="title"/>
+												</mx:columns>
+											</mx:DataGrid>
+										</mx:GridItem>
+										<mx:GridItem width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" borderStyle="solid" borderThickness="1">
+											<mx:DataGrid dataProvider="{Application.application.waf.desktop2.applicationContainer}" 
+												id="dataGridobj2" width="100%" height="100%" 
+												selectable="true" editable="false" enabled="true" borderStyle="solid" borderThickness="1" dragEnabled="true"
+												borderColor="#6D6C6C" dragMoveEnabled="true" mouseDown="setDragInitator(event,'dataGridobj2',Application.application.waf.desktop2)"
+												dragEnter="doDragEnter(event);" dragExit="doDragExit(event);" dragDrop="doDragDrop(event,Application.application.waf.desktop2);">
+												<mx:columns>
+													<mx:DataGridColumn headerText="Application Name" dataField="title"/>
+												</mx:columns>
+											</mx:DataGrid>
+										</mx:GridItem>
+									</mx:GridRow>
+									<mx:GridRow width="100%" height="100%">
+										<mx:GridItem width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" borderStyle="solid" borderThickness="1">
+											<mx:DataGrid dataProvider="{Application.application.waf.desktop3.applicationContainer}" 
+												id="dataGridobj3" width="100%" height="100%" 
+												selectable="true" editable="false" enabled="true" borderStyle="solid" borderThickness="1" borderColor="#6D6C6C"
+												dragMoveEnabled="true" mouseDown="setDragInitator(event,'dataGridobj3',Application.application.waf.desktop3)" dragEnabled="true"
+												dragEnter="doDragEnter(event);" dragExit="doDragExit(event);" dragDrop="doDragDrop(event,Application.application.waf.desktop3);">
+												<mx:columns>
+													<mx:DataGridColumn headerText="Application Name" dataField="title"/>
+												</mx:columns>
+											</mx:DataGrid>
+										</mx:GridItem>
+										<mx:GridItem width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" borderStyle="solid" borderThickness="1">
+											<mx:DataGrid dataProvider="{Application.application.waf.desktop4.applicationContainer}" 
+												id="dataGridobj4" width="100%" height="100%" 
+												selectable="true" editable="false" enabled="true" borderStyle="solid" borderThickness="1" borderColor="#6D6C6C"
+												dragMoveEnabled="true" mouseDown="setDragInitator(event,'dataGridobj4',Application.application.waf.desktop4)" dragEnabled="true"
+												dragEnter="doDragEnter(event);" dragExit="doDragExit(event);" dragDrop="doDragDrop(event,Application.application.waf.desktop4);">
+												<mx:columns>
+													<mx:DataGridColumn headerText="Application Name" dataField="title"/>
+												</mx:columns>
+											</mx:DataGrid>
+										</mx:GridItem>
+									</mx:GridRow>
+								</mx:Grid>
+								<mx:Spacer width="5" height="100%"/>
+							</mx:HBox>
+							<mx:Spacer width="100%" height="5"/>
+						</mx:VBox>
+					</Fieldset>
+					<mx:Spacer width="5" height="100%"/>
+				</mx:HBox>
+			<mx:Spacer width="100%" height="5"/>
+		</mx:VBox>
+		
+		
+		<mx:VBox height="100%" width="100%" id="perf">
+				<mx:HBox width="100%" height="100%" >
+					<mx:Spacer width="5" height="100%"/>
+					<Fieldset width="100%" height="100%" fieldsetLabel="Memory Utilization Graph">
+						<mx:VBox height="100%" width="100%">
+							<mx:VBox height="15" width="100%">
+							</mx:VBox>
+							<mx:HBox width="100%" height="100%" >
+								<mx:Spacer width="5" height="100%"/>
+									<mx:LineChart id="linechart" height="100%" width="100%"
+							            paddingLeft="5" paddingRight="5" 
+							            showDataTips="true" dataProvider="{Application.application.waf.memoryUses}">
+							            <mx:backgroundElements> 
+									        <mx:GridLines direction="both"  horizontalTickAligned="true"   verticalTickAligned="true">
+							                </mx:GridLines>
+									    </mx:backgroundElements>
+										
+										<mx:verticalAxis>
+            								<mx:LinearAxis baseAtZero="false" title="Memory (MB)" />
+								        </mx:verticalAxis>
+
+							            <mx:series>
+							                <mx:LineSeries yField="memory" form="curve" displayName="Memory(MB)" />
+							            </mx:series>
+							        </mx:LineChart>
+								<mx:Spacer width="5" height="100%"/>
+							</mx:HBox>
+							<mx:HBox width="100%" horizontalAlign="center">
+								<mx:Spacer width="5" height="100%"/>
+								<Fieldset width="100%" height="100%" fieldsetLabel="Memory Uses">
+									<mx:Spacer width="5" height="100%"/>
+									<mx:Form label="Memory Uses">
+									        <mx:FormItem label="Total Memory :">
+									            <mx:Label text="{Application.application.waf.memoryUses.getItemAt(Application.application.waf.memoryUses.length-1).memory} MB"/>
+									        </mx:FormItem>
+									        <mx:FormItem label="Max. Memory:">
+									            <mx:Label text="{Application.application.waf.maxmem/1024/1024} MB"/>
+								        	</mx:FormItem>								        
+							    		</mx:Form>
+								</Fieldset>
+								<mx:Spacer width="5" height="100%"/>
+								<Fieldset width="100%" height="100%" fieldsetLabel="Applications Running">
+									<mx:Spacer width="5" height="100%"/>
+									<mx:HBox horizontalAlign="center">
+									    <mx:Form label="Applications Running">
+									        <mx:FormItem label="Desktop 1:">
+									            <mx:Label text="{Application.application.waf.desktop1.applicationContainer.length}"/>
+									        </mx:FormItem>
+									        <mx:FormItem label="Desktop 2:">
+									            <mx:Label text="{Application.application.waf.desktop2.applicationContainer.length}"/>
+									        </mx:FormItem>								        
+									    </mx:Form>
+									    <mx:Form label="Total Applications">
+									        <mx:FormItem label="Desktop 3:">
+									            <mx:Label text="{Application.application.waf.desktop3.applicationContainer.length}"/>
+									        </mx:FormItem>
+									        <mx:FormItem label="Desktop 4:">
+									            <mx:Label text="{Application.application.waf.desktop4.applicationContainer.length}"/>
+									        </mx:FormItem>								        
+									    </mx:Form>
+								    </mx:HBox>
+									<mx:Spacer width="5" height="100%"/>
+								</Fieldset>		
+								<mx:Spacer width="5" height="100%"/>						
+							</mx:HBox>
+							<mx:Spacer width="100%" height="5"/>
+						</mx:VBox>
+					</Fieldset>
+					<mx:Spacer width="5" height="100%"/>
+				</mx:HBox>
+			<mx:Spacer width="100%" height="5"/>
+		</mx:VBox>
+		
+		<mx:VBox height="100%" width="100%" id="desktop1Apps">
+				<mx:HBox width="100%" height="100%" >
+					<mx:Spacer width="5" height="100%"/>
+					<Fieldset width="100%" height="100%" fieldsetLabel="Memory Utilization Graph">
+						<mx:VBox height="100%" width="100%">
+							<mx:VBox height="15" width="100%">
+							</mx:VBox>
+							<mx:HBox width="100%" height="100%" >
+								<mx:Spacer width="5" height="100%"/>
+									<mx:DataGrid dataProvider="{Application.application.waf.desktop1.applicationContainer}" 
+										id="dataGridApps1" width="100%" height="100%" resizableColumns="true"
+										selectable="true" editable="false" enabled="true" borderStyle="solid" borderThickness="1" borderColor="#000000">
+										<mx:columns>
+											<mx:DataGridColumn headerText="Application Name" dataField="title"/>
+											<mx:DataGridColumn headerText="Class Name" dataField="className"/>
+											<mx:DataGridColumn headerText="UID" dataField="uid"/>
+										</mx:columns>
+									</mx:DataGrid>
+								<mx:Spacer width="5" height="100%"/>
+							</mx:HBox>
+							<mx:HBox width="100%" horizontalAlign="right">
+								<mx:Spacer width="5" height="100%"/>
+									<mx:Button label="Kill Application" click="{killApplication(dataGridApps1,Application.application.waf.desktop1)}"/>
+									<mx:Button label="New Application" click="openNewAppWindow(Application.application.waf.desktop1)"/>
+								<mx:Spacer width="5" height="100%"/>						
+							</mx:HBox>
+							<mx:Spacer width="100%" height="5"/>
+						</mx:VBox>
+					</Fieldset>
+					<mx:Spacer width="5" height="100%"/>
+				</mx:HBox>
+			<mx:Spacer width="100%" height="5"/>
+		</mx:VBox>
+		
+			<mx:VBox height="100%" width="100%" id="desktop2Apps">
+				<mx:HBox width="100%" height="100%" >
+					<mx:Spacer width="5" height="100%"/>
+					<Fieldset width="100%" height="100%" fieldsetLabel="Memory Utilization Graph">
+						<mx:VBox height="100%" width="100%">
+							<mx:VBox height="15" width="100%">
+							</mx:VBox>
+							<mx:HBox width="100%" height="100%" >
+								<mx:Spacer width="5" height="100%"/>
+									<mx:DataGrid dataProvider="{Application.application.waf.desktop2.applicationContainer}" 
+										id="dataGridApps2" width="100%" height="100%" resizableColumns="true"
+										selectable="true" editable="false" enabled="true" borderStyle="solid" borderThickness="1" borderColor="#6D6C6C">
+										<mx:columns>
+											<mx:DataGridColumn headerText="Application Name" dataField="title"/>
+											<mx:DataGridColumn headerText="Class Name" dataField="className"/>
+											<mx:DataGridColumn headerText="UID" dataField="uid"/>
+										</mx:columns>
+									</mx:DataGrid>
+								<mx:Spacer width="5" height="100%"/>
+							</mx:HBox>
+							<mx:HBox width="100%" horizontalAlign="right">
+								<mx:Spacer width="5" height="100%"/>
+									<mx:Button label="Kill Application" click="{killApplication(dataGridApps2,Application.application.waf.desktop2)}"/>
+									<mx:Button label="New Application" click="openNewAppWindow(Application.application.waf.desktop2)"/>
+								<mx:Spacer width="5" height="100%"/>						
+							</mx:HBox>
+							<mx:Spacer width="100%" height="5"/>
+						</mx:VBox>
+					</Fieldset>
+					<mx:Spacer width="5" height="100%"/>
+				</mx:HBox>
+			<mx:Spacer width="100%" height="5"/>
+		</mx:VBox>
+		
+			<mx:VBox height="100%" width="100%" id="desktop3Apps">
+				<mx:HBox width="100%" height="100%" >
+					<mx:Spacer width="5" height="100%"/>
+					<Fieldset width="100%" height="100%" fieldsetLabel="Memory Utilization Graph">
+						<mx:VBox height="100%" width="100%">
+							<mx:VBox height="15" width="100%">
+							</mx:VBox>
+							<mx:HBox width="100%" height="100%" >
+								<mx:Spacer width="5" height="100%"/>
+									<mx:DataGrid dataProvider="{Application.application.waf.desktop3.applicationContainer}" 
+										id="dataGridApps3" width="100%" height="100%" resizableColumns="true"
+										selectable="true" editable="false" enabled="true" borderStyle="solid" borderThickness="1" borderColor="#6D6C6C">
+										<mx:columns>
+											<mx:DataGridColumn headerText="Application Name" dataField="title"/>
+											<mx:DataGridColumn headerText="Class Name" dataField="className"/>
+											<mx:DataGridColumn headerText="UID" dataField="uid"/>
+										</mx:columns>
+									</mx:DataGrid>
+								<mx:Spacer width="5" height="100%"/>
+							</mx:HBox>
+							<mx:HBox width="100%" horizontalAlign="right">
+								<mx:Spacer width="5" height="100%"/>
+									<mx:Button label="Kill Application" click="{killApplication(dataGridApps3,Application.application.waf.desktop3)}"/>
+									<mx:Button label="New Application" click="openNewAppWindow(Application.application.waf.desktop3)"/>
+								<mx:Spacer width="5" height="100%"/>						
+							</mx:HBox>
+							<mx:Spacer width="100%" height="5"/>
+						</mx:VBox>
+					</Fieldset>
+					<mx:Spacer width="5" height="100%"/>
+				</mx:HBox>
+			<mx:Spacer width="100%" height="5"/>
+		</mx:VBox>
+		
+			<mx:VBox height="100%" width="100%" id="desktop4Apps">
+				<mx:HBox width="100%" height="100%" >
+					<mx:Spacer width="5" height="100%"/>
+					<Fieldset width="100%" height="100%" fieldsetLabel="Memory Utilization Graph">
+						<mx:VBox height="100%" width="100%">
+							<mx:VBox height="15" width="100%">
+							</mx:VBox>
+							<mx:HBox width="100%" height="100%" >
+								<mx:Spacer width="5" height="100%"/>
+									<mx:DataGrid dataProvider="{Application.application.waf.desktop4.applicationContainer}" 
+										id="dataGridApps4" width="100%" height="100%" resizableColumns="true"
+										selectable="true" editable="false" enabled="true" borderStyle="solid" borderThickness="1" borderColor="#6D6C6C">
+										<mx:columns>
+											<mx:DataGridColumn headerText="Application Name" dataField="title"/>
+											<mx:DataGridColumn headerText="Class Name" dataField="className"/>		
+											<mx:DataGridColumn headerText="UID" dataField="uid"/>									
+										</mx:columns>
+									</mx:DataGrid>
+								<mx:Spacer width="5" height="100%"/>
+							</mx:HBox>
+							<mx:HBox width="100%" horizontalAlign="right">
+								<mx:Spacer width="5" height="100%"/>
+									<mx:Button label="Kill Application" click="{killApplication(dataGridApps4,Application.application.waf.desktop4)}"/>
+									<mx:Button label="New Application" click="openNewAppWindow(Application.application.waf.desktop4)"/>
+								<mx:Spacer width="5" height="100%"/>						
+							</mx:HBox>
+							<mx:Spacer width="100%" height="5"/>
+						</mx:VBox>
+					</Fieldset>
+					<mx:Spacer width="5" height="100%"/>
+				</mx:HBox>
+			<mx:Spacer width="100%" height="5"/>
+		</mx:VBox>
+		
+	</mx:ViewStack>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.states.RemoveChild;
+			import mx.states.AddChild;
+			import mx.containers.Panel;
+			import mx.collections.IList;
+			import mx.managers.DragManager;
+			import mx.events.DragEvent;
+			import mx.controls.Alert;
+			import mx.events.ItemClickEvent;
+			import flash.utils.getTimer;
+			import mx.core.Application;
+			import mx.collections.ArrayCollection;
+			
+			private var dropInitiator:String;
+			private var dragInitiator:SystemDesktop;
+			
+			public function loadDataInTaskManager():void {
+				
+				tab.addEventListener(ItemClickEvent.ITEM_CLICK,showTabsHandler);
+			}
+			
+			
+			public function showTabsHandler(event:ItemClickEvent):void {
+				if(event.label=="Applications") {
+					stack.selectedChild=apps;
+				}
+				else if(event.label=="Desktop 1"){
+					stack.selectedChild=desktop1Apps;
+				}
+				else if(event.label=="Desktop 2"){
+					stack.selectedChild=desktop2Apps;
+				}
+				else if(event.label=="Desktop 3") {
+					stack.selectedChild=desktop3Apps;
+				}
+				else if(event.label=="Desktop 4") {
+					stack.selectedChild=desktop4Apps;
+				}
+				else {
+					stack.selectedChild=perf;
+				}
+				
+			}
+			
+			public function killApplication(datatable:DataGrid,desktop:SystemDesktop):void {
+				
+				if(datatable.selectedItem!=null){
+					for(var i:int=0;i<desktop.applicationContainer.length;++i) {
+						if(datatable.selectedItem.title==desktop.applicationContainer.getItemAt(i).title) {
+							desktop.removeChild(desktop.applicationContainer.getItemAt(i) as DisplayObject);
+							desktop.applicationContainer.removeItemAt(i);
+						}
+					}
+				}
+			}
+			
+			public function openNewAppWindow(desktop:SystemDesktop):void {
+				var openNewApp:TaskManagerNewApplication=new TaskManagerNewApplication();
+				openNewApp.desktop=desktop;
+				openNewApp.x=this.x+50;
+				openNewApp.y=this.y+50;
+				openNewApp.title="Open New Application";
+				this.parent.addChild(openNewApp);
+				((SystemDesktop)(this.parent)).applicationContainer.addItem(openNewApp);
+												
+				
+			}
+			
+			public override function panelClickHandler(event:MouseEvent):void {
+				
+				var bOpen:Boolean=new Boolean(false);
+				
+				/*for(var i:int=0;i<((SystemDesktop)(this.parent)).applicationContainer.length;++i) {
+					if(((SystemDesktop)(this.parent)).applicationContainer.getItemAt(i).className=="TaskManagerNewApplication") {
+						bOpen=true;
+						break;
+					}
+				}
+				*/
+				if(!bOpen){
+					//super.panelClickHandler(event);
+				}
+	
+			}
+			
+			private function setDragInitator(event:MouseEvent, id:String,desktop:SystemDesktop):void
+            {
+            	dropInitiator = id;
+            	dragInitiator=desktop;
+            }
+			
+			private function doDragEnter(event:DragEvent):void 
+	        {
+	           	
+	           	var dropTarget:DataGrid = DataGrid(event.currentTarget);
+	            var dataInfo:ArrayCollection = dropTarget.dataProvider as ArrayCollection;
+				var drop:Boolean = true;
+				
+				if(dropInitiator != dropTarget.id){
+					DragManager.showFeedback(DragManager.MOVE);
+					DragManager.acceptDragDrop(dropTarget);
+				}
+	        }
+	        
+	        private function doDragExit(event:DragEvent):void 
+            {
+                var dropTarget:DataGrid = DataGrid(event.currentTarget);          
+                dropTarget.hideDropFeedback(event);
+            }
+			
+			private function doDragDrop(event:DragEvent,desktop:SystemDesktop):void 
+        	{   
+        		var items:Array = event.dragSource.dataForFormat("items") as Array;
+                var dropTarget:DataGrid = DataGrid(event.currentTarget);  
+                doDragExit(event); 
+                
+                var bMove:Boolean=new Boolean(true);
+                
+                for(var i:int = 0; i < items.length; i++)
+                {   
+                	
+                	if(items[i].singleInstance==true){
+                		for(var j:int=0;j<desktop.applicationContainer.length;++j){
+							if(desktop.applicationContainer.getItemAt(j).className==items[i].className) {
+								bMove=false;
+								break;
+							}
+						}
+                	}
+                	
+                	if(bMove) {
+    	            	desktop.addChild(dragInitiator.getChildAt(dragInitiator.getChildIndex(items[i])));
+        	          	dragInitiator.applicationContainer.removeItemAt(dragInitiator.applicationContainer.getItemIndex(items[i]));
+        	          	desktop.applicationContainer.addItem(items[i]);
+            	        
+                	  	
+                	}else{
+                		Alert.show(items[i].title+" is already running");
+                	}
+                  	
+                }
+            }
+			
+		]]>
+	</mx:Script>
+</PanelWindow>

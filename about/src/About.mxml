@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#EFEFEF, #C1C1C1]"
+	width="1024" height="630">
+	<mx:Style source="skin\obsidian.css" />
+	<mx:Canvas x="0" y="0" width="100%" height="130" clipContent="false" backgroundColor="#3C3C3C">
+		<mx:Image x="64" y="32" source="@Embed(source='image/B&amp;B_Poste-de-travail.png')"/>
+		<mx:Image source="@Embed(source='image/header.png')" left="316" top="32" bottom="10" right="80"/>
+	</mx:Canvas>
+	<mx:Panel layout="absolute" right="97" top="175" left="335" bottom="29">
+		<mx:Button x="35" y="28"   label=" Esay Application Integration" width="257" icon="@Embed(source='image/blockdevice.png')" styleName="ButtonSkin" click="createPopUp(new EAI())"/>
+		<mx:Button x="300" y="28"  label="           Dynamic Start Menu" width="257" styleName="ButtonSkin" icon="@Embed(source='image/Taskbar_&amp;_Start_Menu.png')" click="createPopUp(new DSM())"/>
+		<mx:Button x="35" y="104"  label="     Window Based Application" width="257" icon="@Embed(source='image/windowlist.png')" styleName="ButtonSkin" click="createPopUp(new WBA())"/>
+		<mx:Button x="300" y="104" label="         Plug-in Flex Library" icon="@Embed(source='image/Box_Empty.png')" width="257" styleName="ButtonSkin" click="createPopUp(new PFL())"/>
+		<mx:Button x="35" y="180"  label="            4 Active Desktops" icon="@Embed(source='image/WorkGroup.png')" width="257" styleName="ButtonSkin" click="createPopUp(new FAD())"/>
+		<mx:Button x="300" y="180" label="Application &amp; Task Manager" icon="@Embed(source='image/taskmgr.png')" width="257" styleName="ButtonSkin" click="createPopUp(new ATM())"/>
+		<mx:Button x="35" y="256"  label="              Runtime Skinning" icon="@Embed(source='image/QnextSZ.png')" width="257" styleName="ButtonSkin" />
+		<mx:Button x="300" y="256" label="        Customized User Access" icon="@Embed(source='image/messenger 3D v2.png')" width="257" styleName="ButtonSkin" />
+		<mx:Button x="35" y="332"  label="          Application Security" icon="@Embed(source='image/decrypted.png')" width="257" styleName="ButtonSkin" />
+		<mx:Button x="300" y="332" label="                 Flex Charting" icon="@Embed(source='image/Volume Manager.png')" width="257" styleName="ButtonSkin" />
+	</mx:Panel>
+	<mx:Label x="36" y="265" text="Click below to experience the demo" fontSize="13" fontWeight="bold" fontFamily="Georgia" textDecoration="normal"/>
+	<mx:Button cornerRadius="20"  right="840" top="295" left="95" bottom="265" styleName="applicationDemo" label="Demo" fontSize="18" fontFamily="Georgia" color="#000000" click="openDemo()"/>
+	<mx:TextArea x="36" y="441" width="260" height="169" backgroundAlpha="0.0" fontWeight="normal" editable="false" enabled="true" borderStyle="none">
+		<mx:text><![CDATA[This application has been developed using Flex 3 and used only for learning purpose.
+
+[Date - 05/12/2008]
+The main objective is to create simple web based desktop where different modules can be easily integrated. I have incorporated simple window's features.]]></mx:text>
+	</mx:TextArea>
+	<mx:Label x="335" y="138" text="Developed by Abhisek Jana (ajana162@yahoo.com)" width="592" textAlign="center" fontWeight="bold" enabled="true"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.containers.Panel;
+			import mx.managers.PopUpManager;
+			
+			private var panel:Panel;
+			
+			private function openDemo():void
+			{
+				var u:URLRequest = new URLRequest("http://abhisekjana.elementfx.com/mainapp/demo.html");
+				navigateToURL(u,"_self");
+			}	
+			
+			private function createPopUp(pnl:Panel):void {
+				panel=pnl;
+				panel.addEventListener(MouseEvent.CLICK,closePopUp,true);
+				PopUpManager.addPopUp(panel,this,true);
+				PopUpManager.centerPopUp(panel);
+			}
+			
+			private function closePopUp(evt:MouseEvent):void {
+                PopUpManager.removePopUp(panel);
+            }
+
+
+
+			
+		]]>
+	</mx:Script>	
+	
+</mx:Application>

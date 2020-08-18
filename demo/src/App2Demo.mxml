@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" xmlns:local="*" preinitialize="init()" creationComplete="loadApplication()">
+	<mx:Style source="assets/style.css" />
+	
+	<mx:XML format="e4x" id="startMenuData">
+		<root>    
+			<menuitem label="Application" id="A">
+				<SubMenuItem  label="Grid Gemo" id="E" appName="MainWindowComponent" single="Y" name="GridDemo"/> 
+            	<SubMenuItem  label="Task Manager" id="E" appName="TaskManager" single="N"/>
+            </menuitem> 
+            <menuitem label="Test" id="C" appName="MyAlbum" single="N"/>
+            <menuitem label="Drid Data" id="D" appName="MainWindowComponent" single="Y" name="Main Panel"/>
+		</root>
+	</mx:XML>  
+	 
+	<mx:XML format="e4x" id="desktopIcon">
+		<root>
+			<icons>    
+				<desktopIcon imageSrc="assets/taskmanager.png" iconName="Task Manager" appName="TaskManager"/>
+				<desktopIcon imageSrc="assets/kpackage.png" iconName="Chart Demo" appName="MainWindowComponent"/>
+				<desktopIcon imageSrc="assets/album.png" iconName="Album" appName="MyAlbum"/>
+			</icons>	
+		</root>
+	</mx:XML>  
+	 
+	 
+	<local:WebDesktopApplicationFramework width="100%" height="100%" x="0" y="0" id="waf" 
+		applicationMenu="{startMenuData}" settingsMenu="{startMenuData}" helpMenu="{startMenuData}"
+		enableApplicationMenu="true" enableSettingsMenu="true" enableHelpMenu="true" enableLockAppMenu="true"
+		enableLogoutMenu="true" load4Desktops="true" desktopIcons="{desktopIcon}" bkImageDesktop1="assets/img29.jpg"
+		bkImageDesktop2="assets/img29.jpg" bkImageDesktop3="assets/img29.jpg" bkImageDesktop4="assets/img29.jpg">
+	</local:WebDesktopApplicationFramework>
+	  
+	<mx:Script>
+		<![CDATA[
+			import mx.messaging.SubscriptionInfo;
+			import mx.charts.chartClasses.ChartBase;
+			import com.ChartData;
+			import mx.collections.ArrayCollection;
+
+			
+			[Bindable] public var desktopIcons:ArrayCollection=new ArrayCollection();
+			
+			public function init():void {
+				
+				var a:MainWindowComponent=new MainWindowComponent();
+				var c:ChartData=new ChartData("","");
+				var d:ChartComponent=new ChartComponent();
+				var b:TaskManager=new TaskManager();
+				var e:MyAlbum=new MyAlbum();
+				var f:SuesVideo=new SuesVideo();
+
+					
+			}
+			
+			public function loadApplication():void {
+				waf.showApplication();	
+			}
+			
+		]]>
+	</mx:Script>
+</mx:Application>

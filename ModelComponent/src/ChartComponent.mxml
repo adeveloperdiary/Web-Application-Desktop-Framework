@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PanelWindow xmlns="com.met.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="500" height="356"
+	title="Chart" showMax="true" showMin="true" showClose="true" 
+	hideEffect="{fadeOut}"
+	showEffect="{fadeIn}" x="40" y="20" windowIcon="{kpackage21}">
+
+	
+	<mx:Fade id="fadeOut" duration="500" alphaFrom="1.0" alphaTo="0.0"/>
+	<mx:Fade id="fadeIn" duration="500" alphaFrom="0.0" alphaTo="1.0"/>
+	
+  	
+  	<mx:VBox height="28" width="100%">
+	</mx:VBox>
+	<mx:VBox height="100%" width="100%">
+		<mx:Spacer height="10" width="100%" />
+		<mx:HBox width="100%" height="100%">
+			<mx:Spacer height="100%" width="10" />
+			<InnerPanel width="100%" height="100%">
+				<mx:PieChart dataProvider="{chartData}" id="piechart" height="100%" width="100%" 
+					visible="false" >
+					<mx:series>
+						<mx:PieSeries displayName="someVar1" field="someVar" labelField="someVar1" nameField="someVar1">
+							<mx:showDataEffect>
+	                    		<mx:SeriesInterpolate duration="1000" />
+	                		</mx:showDataEffect>
+						</mx:PieSeries>
+					</mx:series>
+				</mx:PieChart>
+				<mx:Legend dataProvider="{piechart}"/>
+			</InnerPanel>
+			<mx:Spacer height="100%" width="10" />
+		</mx:HBox>
+		<mx:Spacer height="10" width="100%" />
+	</mx:VBox>
+	<mx:Script >
+		<![CDATA[
+			import mx.events.EffectEvent;
+			import mx.collections.ArrayCollection;
+			[Bindable] public var chartData:ArrayCollection = new ArrayCollection();
+			
+			[Embed(source="assets/kpackage21.png")]
+ 			[Bindable] public var kpackage21:Class;
+			
+			public override function setData(obj:Object):void {
+				
+				this.parent.setChildIndex(this, this.parent.numChildren - 1);
+				
+				piechart.visible=true;
+				chartData=obj as ArrayCollection;
+				glowWindow.target=this;
+				glowWindow.play();
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Glow id="glowWindow" duration="800" 
+        alphaFrom="1.0" alphaTo="0.0" 
+        blurXFrom="0.0" blurXTo="150.0" 
+        blurYFrom="0.0" blurYTo="150.0"
+        color="0xFFFFFF"/>	
+		
+		
+</PanelWindow>

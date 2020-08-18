@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PanelWindow xmlns="com.met.panel.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="300" height="130"
+	showMin="false" showClose="true" showMax="false" enableResize="false" enableZoom="false" x="0" y="0">
+	<mx:VBox height="27" width="100%">
+	</mx:VBox>
+	
+	
+	<mx:VBox width="100%">
+		<mx:HBox width="100%" horizontalAlign="center">
+			<mx:Spacer width="5"  />
+			<mx:Form label="Memory Uses" width="100%">
+		        <mx:FormItem label="Open:    ">
+		            <mx:TextInput id="AppName" width="100%"/>
+		        </mx:FormItem>
+    		</mx:Form>	
+			<mx:Spacer width="5" />
+		</mx:HBox>
+		<mx:HBox horizontalAlign="right" width="100%">
+			<mx:Spacer width="5"  />
+				<mx:Button label="OK" click="openApplication()"/>
+				<mx:Button label="Cancel" click="closeApplication()"/>
+			<mx:Spacer width="5"  />
+		</mx:HBox>
+	</mx:VBox>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			
+			public var desktop:SystemDesktop;
+			
+			
+			public function openApplication():void {
+				if(AppName.text.length>0){
+					try{
+						var classReference:Class = getDefinitionByName(AppName.text) as Class;
+						var instance:DisplayObject = new classReference() as DisplayObject;
+						desktop.addChild(instance);
+						desktop.applicationContainer.addItem(instance);
+						this.closeClickHandler(new MouseEvent(MouseEvent.CLICK));
+					}catch(e:Error){
+						Alert.show(e.message);
+					}
+				}
+			}
+			
+			public function closeApplication():void {
+				//this.parent.removeChild(this);
+				
+				this.closeClickHandler(new MouseEvent(MouseEvent.CLICK));
+			}
+			
+			
+		]]>
+	</mx:Script>
+</PanelWindow>

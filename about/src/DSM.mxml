@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="528" height="366">
+	<mx:VBox x="10" y="10" width="508" height="346">
+		<mx:HBox width="100%" height="70" verticalAlign="middle" horizontalAlign="center">
+			<mx:Image source="@Embed(source='image/Taskbar_&amp;_Start_Menu.png')"/>
+			<mx:Label text="Dynamic Start Menu" color="#FFFFFF" fontSize="25" fontFamily="Georgia" fontWeight="bold" enabled="true"/>
+		</mx:HBox>
+		<mx:TextArea width="100%" height="100%" backgroundAlpha="0.0" color="#FFFFFF" alpha="1.0">
+			<mx:htmlText>
+				<![CDATA[The StartMenu is completely dynamic and generated based on user authorization model retrieved from server.<BR>The StartMenu dyanamically loads the application after user clicks on the menu item.  
+				<BR>In the demo click on the StartMenu and then click on any Item.<IMG src='http://abhisekjana.elementfx.com/image/2.png'/>		
+				]]>
+			</mx:htmlText>
+		</mx:TextArea>
+	</mx:VBox>
+</mx:Panel>
