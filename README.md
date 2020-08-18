@@ -1,4 +1,4 @@
-# Web-Application-Desktop-Framework
+# Web Application Desktop Framework
 
 In the advent of Web 2.0 era I was on steroids to fully utilize the newer tools and technologies. Adobe Flex was the magical tool which helped me to materialize my vision. Many enterprise applications were still using vanila javascripts and porlets for rendering the UI. 
 
@@ -8,7 +8,15 @@ I initially uploaded the demo ( a much richer version that whats given below ) a
 
 Since adobe is sunsetting Flash by end of 2020, I have decided to provide my tribute by sharing some of the early concepts and code. 
 
+It's my pleasure to say that this framework was reviewed and approved by [Yakov Fain](https://yakovfain.com/) (Java Champion) to be used across exterprise. There are applications still up and running using this framework in production system ( more than 12 years now) without any issues.
+
 Here is a very early demo of the framework.
 
 ![image](images/waf.gif)
+
+[Youtube Video of the same](https://youtu.be/wSkkoC40HIw)
+
+## Features
+
+
 
